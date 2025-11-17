@@ -1,27 +1,27 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialProductsState } from './products.models';
-import * as P from './products.actions';
+import * as Products from './products.actions';
+import { ProductsState, initialProductsState } from './products.models';
 
 export const productsReducer = createReducer(
   initialProductsState,
 
-  on(P.loadProducts, (state, { query }) => ({
+  on(Products.loadProducts, (state, { query }) => ({
     ...state,
+    query: { ...state.query, ...query },
     loading: true,
-    error: null,
-    query: { ...state.query, ...query }
+    error: null
   })),
 
-  on(P.loadProductsSuccess, (state, { count, results }) => ({
+  on(Products.loadProductsSuccess, (state, { count, results }) => ({
     ...state,
-    loading: false,
     count,
-    results
+    results,
+    loading: false
   })),
 
-  on(P.loadProductsFailure, (state, { error }) => ({
+  on(Products.loadProductsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error
-  })),
+  }))
 );

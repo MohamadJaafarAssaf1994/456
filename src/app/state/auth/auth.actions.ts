@@ -2,14 +2,14 @@ import { createAction, props } from '@ngrx/store';
 
 export const login = createAction(
   '[Auth] Login',
-  props<{ username: string }>()  
+  props<{ username: string; password: string }>()
 );
 
 export const logout = createAction('[Auth] Logout');
 
 export const loginSuccess = createAction(
   '[Auth] Login Success',
-  props<{ access: string; refresh: string }>()
+  props<{ username: string; access: string; refresh: string }>()
 );
 
 export const loginFailure = createAction(

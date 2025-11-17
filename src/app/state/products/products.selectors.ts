@@ -1,29 +1,36 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ProductsState } from './products.models';
 
-export const selectProducts = createFeatureSelector<ProductsState>('products');
+// 1. Base selector for the feature state
+export const selectProductsState =
+  createFeatureSelector<ProductsState>('products');
 
-export const selectProductsQuery = createSelector(
-  selectProducts,
-  s => s.query
-);
-
+// 2. Select list
 export const selectProductsList = createSelector(
-  selectProducts,
-  s => s.results
+  selectProductsState,
+  (state) => state.results
 );
 
+// 3. Select total count
 export const selectProductsCount = createSelector(
-  selectProducts,
-  s => s.count
+  selectProductsState,
+  (state) => state.count
 );
 
+// 4. Select loading
 export const selectProductsLoading = createSelector(
-  selectProducts,
-  s => s.loading
+  selectProductsState,
+  (state) => state.loading
 );
 
+// 5. Select error (THIS WAS MISSING)
 export const selectProductsError = createSelector(
-  selectProducts,
-  s => s.error
+  selectProductsState,
+  (state) => state.error
+);
+
+// 6. Select current filters / query
+export const selectProductsQuery = createSelector(
+  selectProductsState,
+  (state) => state.query
 );

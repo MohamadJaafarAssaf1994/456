@@ -1,6 +1,18 @@
-<header class="p-4 border-b">
+<header class="p-4 border-b flex justify-between items-center">
   <strong>My Shop</strong>
+
+  <div class="flex gap-4 items-center">
+    <ng-container *ngIf="username$ | async as user; else notLogged">
+      <span class="text-gray-700">Hello, {{ user }}</span>
+      <button (click)="logout()" class="px-3 py-1 border rounded">Logout</button>
+    </ng-container>
+
+    <ng-template #notLogged>
+      <a routerLink="/login" class="underline">Login</a>
+    </ng-template>
+  </div>
 </header>
+
 <main class="p-4">
   <router-outlet></router-outlet>
 </main>

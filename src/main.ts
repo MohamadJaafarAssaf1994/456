@@ -3,6 +3,7 @@ import { appConfig } from './app/app.config';
 import { App } from './app/app';
 import { environment } from './environments/environment';
 
+
 async function main() {
   if (environment.useMsw) {
     const { worker } = await import('./mocks/browser');

@@ -1,24 +1,24 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AuthState } from './auth.models';
+import { AuthState } from './auth.reducer';
 
-export const selectAuth = createFeatureSelector<AuthState>('auth');
+// 1️⃣ Select the entire auth feature state
+export const selectAuthState =
+  createFeatureSelector<AuthState>('auth');
 
-export const selectAccessToken = createSelector(
-  selectAuth,
-  (state) => state.access
+// 2️⃣ Select the username
+export const selectUsername = createSelector(
+  selectAuthState,
+  (state) => state.username
 );
 
+// 3️⃣ Optional: select login status
 export const selectIsLoggedIn = createSelector(
-  selectAccessToken,
-  (access) => !!access
+  selectAuthState,
+  (state) => state.isLoggedIn
 );
 
-export const selectAuthLoading = createSelector(
-  selectAuth,
-  (state) => state.loading
-);
-
+// 4️⃣ Optional: select auth error
 export const selectAuthError = createSelector(
-  selectAuth,
+  selectAuthState,
   (state) => state.error
 );

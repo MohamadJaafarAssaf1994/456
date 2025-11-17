@@ -1,6 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectProductsList, selectProductsCount, selectProductsLoading } from '../../state/products/products.selectors';
+import { 
+  selectProductsList, 
+  selectProductsCount, 
+  selectProductsLoading,
+  selectProductsError
+} from '../../state/products/products.selectors';
+
 import * as Products from '../../state/products/products.actions';
 import { AsyncPipe, NgFor, NgIf, CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
@@ -58,8 +64,14 @@ import { MatButtonModule } from '@angular/material/button';
 
     <p class="mt-3">Total products: {{ count$ | async }}</p>
 
-    <div *ngIf="loading$ | async">Loading…</div>
 
+    <div *ngIf="loading$ | async" class="text-blue-500">
+      Loading products...
+    </div>
+
+    <div *ngIf="error$ | async as err" class="text-red-500">
+      {{ err }}
+    </div>
     <ul *ngIf="!(loading$ | async)">
       <li *ngFor="let p of (list$ | async)">
         {{ p.id }} – {{ p.name }} – {{ p.price }}€
@@ -75,6 +87,8 @@ export class ProductsPageComponent {
   list$  = this.store.select(selectProductsList);
   count$ = this.store.select(selectProductsCount);
   loading$ = this.store.select(selectProductsLoading);
+  error$ = this.store.select(selectProductsError);
+
 
   form = this.fb.group({
     page: 1,

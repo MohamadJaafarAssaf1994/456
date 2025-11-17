@@ -1,57 +1,50 @@
-import { Component, inject, signal } from '@angular/core';
-import { ShopApiService } from '../../services/shop-api.service';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { loadRating } from '../../state/rating/rating.actions';
+import { selectRatingLoading, selectRatingError, selectRatingResult } 
+from '../../state/rating/rating.selectors';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   standalone: true,
-  selector: 'app-product-rating-page',
-  imports: [
-    MatCardModule, MatFormFieldModule,
-    MatInputModule, MatButtonModule,
-    NgIf
-  ],
+  selector: 'app-rating-page',
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe],
   template: `
-    <mat-card class="max-w-md mx-auto mt-6">
-      <h2>Product Rating</h2>
+    <h2 class="text-xl font-semibold mb-4">Product Rating</h2>
 
-      <mat-form-field class="w-full">
-        <mat-label>Product ID</mat-label>
-        <input matInput #idInput type="number">
-      </mat-form-field>
+    <form [formGroup]="form" (ngSubmit)="apply()">
+      <input type="number" formControlName="productId" placeholder="Enter product ID">
+      <button class="border px-3 py-2 ml-2">Get Rating</button>
+    </form>
 
-      <button mat-raised-button color="primary" (click)="fetch(idInput.value)">
-        Fetch Rating
-      </button>
+    <p *ngIf="loading$ | async">Loading rating...</p>
 
-      <div class="mt-4" *ngIf="rating() as r">
-        <p><b>Average Rating:</b> {{ r.avg_rating }}</p>
-        <p><b>Count:</b> {{ r.count }}</p>
-      </div>
+    <p *ngIf="error$ | async as err" class="text-red-500">
+      Error: {{ err }}
+    </p>
 
-      <div style="color:red;" *ngIf="error()">{{ error() }}</div>
-    </mat-card>
-  `,
+    <div *ngIf="(result$ | async) as r">
+      <p>Average Rating: {{ r.avg_rating }}</p>
+      <p>Total Reviews: {{ r.count }}</p>
+    </div>
+  `
 })
 export class ProductRatingPageComponent {
-  private api = inject(ShopApiService);
 
-  rating = signal<{ avg_rating: number; count: number } | null>(null);
-  error = signal<string | null>(null);
+  private store = inject(Store);
+  private fb = inject(FormBuilder);
 
-  fetch(idValue: string) {
-    this.rating.set(null);
-    this.error.set(null);
+  form = this.fb.group({
+    productId: 1
+  });
 
-    const id = Number(idValue);
+  loading$ = this.store.select(selectRatingLoading);
+  error$ = this.store.select(selectRatingError);
+  result$ = this.store.select(selectRatingResult);
 
-    this.api.getRating(id).subscribe({
-      next: (res) => this.rating.set({ avg_rating: res.avg_rating, count: res.count }),
-      error: (err) => this.error.set(err?.message || 'Not found')
-    });
+  apply() {
+    const id = this.form.value.productId ?? 1;
+    this.store.dispatch(loadRating({ productId: id }));
   }
 }

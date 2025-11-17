@@ -25,9 +25,13 @@ export class LoginPageComponent {
 
   onSubmit(data: { username: string; password: string }) {
     // Dispatch ONLY username
-    this.store.dispatch(login({ username: data.username }));
+    this.store.dispatch(login({
+      username: data.username!,
+      password: data.password!
+}));
+
 
     // Navigate to products
-    this.router.navigateByUrl('/products');
+    this.router.navigateByUrl('/shop/products');
   }
 }

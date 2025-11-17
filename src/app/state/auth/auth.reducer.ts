@@ -1,49 +1,47 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialAuthState } from './auth.models';
 import * as Auth from './auth.actions';
-import { login, logout } from './auth.actions';
+
+export interface AuthState {
+  username: string | null;
+  access: string | null;
+  refresh: string | null;
+  isLoggedIn: boolean;
+  error: string | null;
+}
+
+export const initialAuthState: AuthState = {
+  username: null,
+  access: null,
+  refresh: null,
+  isLoggedIn: false,
+  error: null
+};
 
 export const authReducer = createReducer(
   initialAuthState,
 
-  on(Auth.login, (state) => ({
+  on(Auth.login, state => ({
     ...state,
-    loading: true,
     error: null,
   })),
 
-  on(Auth.loginSuccess, (state, { access, refresh }) => ({
+  on(Auth.loginSuccess, (state, { username, access, refresh }) => ({
     ...state,
-    loading: false,
+    username,
     access,
     refresh,
+    isLoggedIn: true,
+    error: null,
   })),
 
   on(Auth.loginFailure, (state, { error }) => ({
     ...state,
-    loading: false,
     error,
+    isLoggedIn: false,
   })),
 
-  on(Auth.refreshToken, (state) => ({
-    ...state,
-    loading: true,
-  })),
-
-  on(Auth.refreshSuccess, (state, { access }) => ({
-    ...state,
-    loading: false,
-    access,
-  })),
-
-  on(Auth.refreshFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  on(login, (state, { username }) => ({
-    ...state,
-    username,
-    isLoggedIn: true,
+  on(Auth.logout, () => ({
+    ...initialAuthState
   }))
+
 );
