@@ -4,7 +4,9 @@
   "cli": {
     "packageManager": "npm",
     "schematicCollections": [
-      "angular-eslint"
+      "@cypress/schematic",
+      "angular-eslint",
+      "@schematics/angular"
     ],
     "analytics": false
   },
@@ -120,6 +122,51 @@
             "browserTarget": "my-shop:build",
             "compodoc": false,
             "outputDir": "storybook-static"
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "my-shop:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "my-shop:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "my-shop:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "my-shop:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "my-shop:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "my-shop:serve:production"
+            }
           }
         }
       }

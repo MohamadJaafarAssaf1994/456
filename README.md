@@ -124,8 +124,15 @@ ng build
 
 This compiles the app and places artifacts in the dist/ folder.
 
+Running unit tests
 
-(Angular CLI does not include an e2e framework by default. You may choose Cypress, Playwright, etc.)
+Run unit tests using Karma:
+
+ng test
+
+Running end-to-end tests
+ng e2e
+(Cypress)
 
 Project Structure
 src/app/
