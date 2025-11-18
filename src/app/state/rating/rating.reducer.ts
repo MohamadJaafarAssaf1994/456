@@ -1,43 +1,43 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Rating from './rating.actions';
+import { RatingResult } from './rating.models';
 
 export interface RatingState {
-  productId: number | null;
-  avg_rating: number | null;
-  count: number | null;
   loading: boolean;
   error: string | null;
+  result: RatingResult | null;   // ⭐ this holds the rating data
 }
 
 export const initialRatingState: RatingState = {
-  productId: null,
-  avg_rating: null,
-  count: null,
   loading: false,
-  error: null
+  error: null,
+  result: null
 };
 
 export const ratingReducer = createReducer(
   initialRatingState,
 
-  on(Rating.loadRating, (state, { productId }) => ({
+  // Before loading → clear old result
+  on(Rating.loadRating, (state) => ({
     ...state,
-    productId,
     loading: true,
-    error: null
+    error: null,
+    result: null
   })),
 
+  // Rating retrieved successfully → store inside result object
   on(Rating.loadRatingSuccess, (state, { productId, avg_rating, count }) => ({
     ...state,
-    productId,
-    avg_rating,
-    count,
-    loading: false
+    loading: false,
+    error: null,
+    result: { productId, avg_rating, count }    // ⭐ important fix
   })),
 
+  // Failure → store error, clear result
   on(Rating.loadRatingFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
+    result: null
   }))
 );

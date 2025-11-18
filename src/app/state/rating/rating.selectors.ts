@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { RatingState } from './rating.reducer';
+import { RatingResult } from './rating.models';
 
 export const selectRatingState =
   createFeatureSelector<RatingState>('rating');
@@ -16,8 +17,5 @@ export const selectRatingError = createSelector(
 
 export const selectRatingResult = createSelector(
   selectRatingState,
-  state => ({
-    avg_rating: state.avg_rating,
-    count: state.count
-  })
+  state => state.result
 );

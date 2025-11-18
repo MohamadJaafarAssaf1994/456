@@ -1,59 +1,139 @@
-# MyShop
+MyShop
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.9.
+MyShop is a coursework Angular project demonstrating modern frontend development using:
 
-## Development server
+Angular 20 (Standalone Components)
+
+NgRx (Store, Effects, Actions, Reducers)
+
+MSW (Mock Service Worker) for API simulation
+
+Reactive Forms
+
+Storybook
+
+TailwindCSS + Angular Material
+
+It includes a Login page, Products list with filters, and a Product Rating feature using a fully mocked backend.
+
+Features Implemented
+✔ Authentication
+
+Login form using Reactive Forms
+
+NgRx state for auth (login, logout, success, failure)
+
+Mock API returning { access, refresh }
+
+✔ Products Page
+
+List of products with filters:
+
+page
+
+pageSize
+
+minRating
+
+ordering
+
+NgRx store for products
+
+NgRx effects for loading products
+
+Product average rating calculated on backend (MSW)
+
+✔ Product Rating Page
+
+Input product ID
+
+Fetch rating from mock API
+
+Display:
+
+Product ID
+
+Average rating
+
+Total reviews
+
+NgRx effects & reducers
+
+✔ Storybook
+
+LoginForm component story
+
+Product components preview
+
+UI component testing in isolation
+
+Development server
 
 To start a local development server, run:
 
-```bash
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+Once the server is running, open:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+http://localhost:4200/
 
-```bash
+
+The app will automatically reload when source files change.
+
+Mock API (MSW)
+
+This project uses Mock Service Worker to simulate backend responses for:
+
+/api/auth/token/
+
+/api/auth/token/refresh/
+
+/api/products/
+
+/api/products/:id/rating/
+
+The mock API starts automatically on ng serve.
+
+Storybook
+
+To start Storybook:
+
+ng run my-shop:storybook
+
+
+This opens a UI to preview individual components in isolation.
+
+Code scaffolding
+
+To generate a new component:
+
 ng generate component component-name
-```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
+For all available schematics:
+
 ng generate --help
-```
 
-## Building
+Building
 
-To build the project run:
+To build the project for production:
 
-```bash
 ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
+This compiles the app and places artifacts in the dist/ folder.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-```bash
-ng test
-```
+(Angular CLI does not include an e2e framework by default. You may choose Cypress, Playwright, etc.)
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Project Structure
+src/app/
+ ├─ state/            → NgRx store (auth, products, rating)
+ ├─ features/         → Pages (login, products, rating)
+ ├─ ui/               → UI components (login form)
+ ├─ app.routes.ts     → Application routes
+ ├─ app.ts / app.html → Root component
+src/mocks/
+ ├─ handlers.ts       → Mock API endpoints
+ ├─ browser.ts        → MSW setup

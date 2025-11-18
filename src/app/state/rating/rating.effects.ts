@@ -17,7 +17,7 @@ export class RatingEffects {
         this.api.getRating(productId).pipe(
           map(res =>
             Rating.loadRatingSuccess({
-              productId,
+              productId: res.product_id,
               avg_rating: res.avg_rating,
               count: res.count
             })

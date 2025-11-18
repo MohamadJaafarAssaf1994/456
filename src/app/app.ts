@@ -1,16 +1,15 @@
 import { Component, signal, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectUsername } from './state/auth/auth.selectors';
 import { logout } from './state/auth/auth.actions';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe, NgIf],
+  imports: [RouterOutlet, RouterLink, AsyncPipe, NgIf],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
