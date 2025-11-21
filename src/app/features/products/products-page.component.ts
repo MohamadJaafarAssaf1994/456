@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { 
-  selectProductsList, 
-  selectProductsCount, 
+import {
+  selectProductsList,
+  selectProductsCount,
   selectProductsLoading,
   selectProductsError
 } from '../../state/products/products.selectors';
 
 import * as Products from '../../state/products/products.actions';
+
 import { AsyncPipe, NgFor, NgIf, CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
@@ -33,6 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 
     <form [formGroup]="form" (ngSubmit)="apply()">
       <div class="grid gap-3" style="grid-template-columns: repeat(4, 1fr);">
+
         <mat-form-field>
           <mat-label>Page</mat-label>
           <input matInput type="number" formControlName="page">
@@ -64,7 +66,6 @@ import { MatButtonModule } from '@angular/material/button';
 
     <p class="mt-3">Total products: {{ count$ | async }}</p>
 
-
     <div *ngIf="loading$ | async" class="text-blue-500">
       Loading products...
     </div>
@@ -72,11 +73,48 @@ import { MatButtonModule } from '@angular/material/button';
     <div *ngIf="error$ | async as err" class="text-red-500">
       {{ err }}
     </div>
+
     <ul *ngIf="!(loading$ | async)">
       <li *ngFor="let p of (list$ | async)">
         {{ p.id }} – {{ p.name }} – {{ p.price }}€
       </li>
     </ul>
+
+    <!-- ⭐ FINAL ERROR-FREE PAGINATION BLOCK ⭐ -->
+    <ng-container *ngIf="count$ | async as total">
+      <ng-container *ngIf="totalPages(total) as maxPages">
+        <div class="mt-6 flex items-center justify-center gap-4" *ngIf="total > 0">
+
+          <!-- Previous -->
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="prevPage(total)"
+            [disabled]="page <= 1"
+          >
+            ‹ Previous
+          </button>
+
+          <!-- Page info -->
+          <span class="text-sm text-gray-700">
+            Page {{ page }} / {{ maxPages }}
+          </span>
+
+          <!-- Next -->
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="nextPage(total)"
+            [disabled]="page >= maxPages"
+          >
+            Next ›
+          </button>
+
+        </div>
+      </ng-container>
+    </ng-container>
+    <!-- END PAGINATION -->
+
   </mat-card>
   `,
 })
@@ -88,7 +126,6 @@ export class ProductsPageComponent {
   count$ = this.store.select(selectProductsCount);
   loading$ = this.store.select(selectProductsLoading);
   error$ = this.store.select(selectProductsError);
-
 
   form = this.fb.group({
     page: 1,
@@ -104,7 +141,6 @@ export class ProductsPageComponent {
   apply() {
     const raw = this.form.getRawValue();
 
-    // Convert null -> undefined to satisfy TypeScript & ProductsQuery typing
     const cleanQuery = {
       page: raw.page ?? undefined,
       pageSize: raw.pageSize ?? undefined,
@@ -115,5 +151,38 @@ export class ProductsPageComponent {
     this.store.dispatch(
       Products.loadProducts({ query: cleanQuery })
     );
+  }
+
+  // ⭐ SAFE GETTERS
+  get pageCtrl() {
+    return this.form.get('page');
+  }
+
+  get page() {
+    return this.pageCtrl?.value ?? 1;
+  }
+
+  get pageSize() {
+    return this.form.get('pageSize')?.value ?? 10;
+  }
+
+  // ⭐ PAGINATION LOGIC
+  totalPages(totalCount: number): number {
+    return Math.max(1, Math.ceil(totalCount / this.pageSize));
+  }
+
+  goToPage(page: number, totalCount: number): void {
+    const max = this.totalPages(totalCount);
+    const target = Math.min(Math.max(page, 1), max);
+    this.form.patchValue({ page: target });
+    this.apply();
+  }
+
+  nextPage(totalCount: number): void {
+    this.goToPage(this.page + 1, totalCount);
+  }
+
+  prevPage(totalCount: number): void {
+    this.goToPage(this.page - 1, totalCount);
   }
 }
