@@ -19,6 +19,9 @@ export interface ProductsState {
   results: Product[];
   loading: boolean;
   error: string | null;
+  selected: Product | null;
+  loadingSelected: boolean;
+  errorSelected: string | null;
 }
 
 export const initialProductsState: ProductsState = {
@@ -31,5 +34,8 @@ export const initialProductsState: ProductsState = {
   count: 0,
   results: [],
   loading: false,
-  error: null
+  error: null,
+  selected: null,
+  loadingSelected: false,
+  errorSelected: null
 };

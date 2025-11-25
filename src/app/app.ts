@@ -5,11 +5,14 @@ import { selectUsername } from './state/auth/auth.selectors';
 import { logout } from './state/auth/auth.actions';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { selectCartCount } from './state/cart/cart.selectors';
+import { CartIconComponent } from './shop/cart/cart-icon.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, AsyncPipe, NgIf],
+  imports: [RouterOutlet, RouterLink, AsyncPipe, NgIf, CartIconComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -19,6 +22,8 @@ export class App {
   private store = inject(Store);
   private router = inject(Router);
   username$ = this.store.select(selectUsername);
+  cartCount$ = this.store.select(selectCartCount);
+
 
   logout() {
     this.store.dispatch(logout());

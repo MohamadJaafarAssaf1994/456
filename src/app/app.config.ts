@@ -17,6 +17,11 @@ import { ratingReducer } from './state/rating/rating.reducer';
 import { AuthEffects } from './state/auth/auth.effects';
 import { ProductsEffects } from './state/products/products.effects';
 import { RatingEffects } from './state/rating/rating.effects';
+import { cartReducer } from './state/cart/cart.reducer';
+import { CartEffects } from './state/cart/cart.effects';
+import { checkoutReducer } from './state/checkout/checkout.reducer';
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,11 +32,16 @@ export const appConfig: ApplicationConfig = {
     auth: authReducer,
     products: productsReducer,
     rating: ratingReducer,
+    cart: cartReducer,
+    checkout: checkoutReducer
+
   }),
   provideEffects([
     AuthEffects,
     ProductsEffects,
-    RatingEffects
+    RatingEffects,
+    CartEffects
+
   ]),
   provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   provideHttpClient(),

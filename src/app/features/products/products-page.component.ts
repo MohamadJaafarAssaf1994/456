@@ -17,13 +17,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-products-page',
   imports: [
     CommonModule,
-    AsyncPipe, NgFor, NgIf,
+    AsyncPipe, NgFor, NgIf, RouterLink,
     ReactiveFormsModule,
     MatCardModule, MatFormFieldModule,
     MatInputModule, MatSelectModule, MatButtonModule
@@ -32,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
   <mat-card class="mx-auto max-w-3xl mt-6">
     <h2>Products</h2>
 
+    <!-- FILTER FORM -->
     <form [formGroup]="form" (ngSubmit)="apply()">
       <div class="grid gap-3" style="grid-template-columns: repeat(4, 1fr);">
 
@@ -66,21 +68,29 @@ import { MatButtonModule } from '@angular/material/button';
 
     <p class="mt-3">Total products: {{ count$ | async }}</p>
 
+    <!-- LOADING -->
     <div *ngIf="loading$ | async" class="text-blue-500">
       Loading products...
     </div>
 
+    <!-- ERROR -->
     <div *ngIf="error$ | async as err" class="text-red-500">
       {{ err }}
     </div>
 
+    <!-- ⭐ CLICKABLE PRODUCT LINKS ⭐ -->
     <ul *ngIf="!(loading$ | async)">
       <li *ngFor="let p of (list$ | async)">
-        {{ p.id }} – {{ p.name }} – {{ p.price }}€
+        <a
+          [routerLink]="['/shop/product', p.id]"
+          class="text-blue-600 underline hover:text-blue-800"
+        >
+          {{ p.name }} – {{ p.price }}€
+        </a>
       </li>
     </ul>
 
-    <!-- ⭐ FINAL ERROR-FREE PAGINATION BLOCK ⭐ -->
+    <!-- ⭐ PAGINATION ⭐ -->
     <ng-container *ngIf="count$ | async as total">
       <ng-container *ngIf="totalPages(total) as maxPages">
         <div class="mt-6 flex items-center justify-center gap-4" *ngIf="total > 0">
@@ -113,7 +123,6 @@ import { MatButtonModule } from '@angular/material/button';
         </div>
       </ng-container>
     </ng-container>
-    <!-- END PAGINATION -->
 
   </mat-card>
   `,

@@ -15,3 +15,21 @@ export const loadProductsFailure = createAction(
   '[Products] Load Failure',
   props<{ error: string }>()
 );
+
+// ⭐ Load product details
+export const loadProductDetails = createAction(
+  '[Products] Load Product Details',
+  props<{ id: number }>()
+);
+
+// ⭐ Success
+export const loadProductDetailsSuccess = createAction(
+  '[Products] Load Product Details Success',
+  props<{ product: Product }>()
+);
+
+// ⭐ Failure
+export const loadProductDetailsFailure = createAction(
+  '[Products] Load Product Details Failure',
+  props<{ error: string }>()
+);

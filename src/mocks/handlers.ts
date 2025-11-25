@@ -43,6 +43,22 @@ export const handlers = [
     return HttpResponse.json({ count, next: null, previous: null, results }, { status: 200 });
   }),
 
+  // Product details: GET /api/products/:id
+  http.get(`${API}/products/:id`, async ({ params }) => {
+  const id = Number(params['id']);
+  const p = products.find((x) => x.id === id);
+
+  if (!p) {
+    return HttpResponse.json({ detail: 'Not found.' }, { status: 404 });
+  }
+
+  // Add average rating like your list does
+  const productWithAvg = { ...p, _avg: avgRating(p.ratings) };
+
+  return HttpResponse.json(productWithAvg, { status: 200 });
+}),
+
+
   // Product rating: GET /api/products/:id/rating/
   http.get(`${API}/products/:id/rating/`, async ({ params }) => {
     const id = Number(params['id']);
