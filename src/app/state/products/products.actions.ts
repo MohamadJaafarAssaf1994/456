@@ -16,19 +16,19 @@ export const loadProductsFailure = createAction(
   props<{ error: string }>()
 );
 
-// ⭐ Load product details
+//  Load product details
 export const loadProductDetails = createAction(
   '[Products] Load Product Details',
   props<{ id: number }>()
 );
 
-// ⭐ Success
+//  Success
 export const loadProductDetailsSuccess = createAction(
   '[Products] Load Product Details Success',
   props<{ product: Product }>()
 );
 
-// ⭐ Failure
+//  Failure
 export const loadProductDetailsFailure = createAction(
   '[Products] Load Product Details Failure',
   props<{ error: string }>()

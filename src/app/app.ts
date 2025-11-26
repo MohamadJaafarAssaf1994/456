@@ -7,12 +7,14 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { selectCartCount } from './state/cart/cart.selectors';
 import { CartIconComponent } from './shop/cart/cart-icon.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, AsyncPipe, NgIf, CartIconComponent],
+  imports: [RouterOutlet, RouterLink, AsyncPipe, NgIf, CartIconComponent, MatSnackBarModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

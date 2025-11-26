@@ -1,9 +1,7 @@
 import { Component, inject } from '@angular/core';
+import { AsyncPipe, NgIf, NgFor } from '@angular/common';
+import { RouterLink, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AsyncPipe, NgIf, NgFor} from '@angular/common';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
-
 
 import { selectCartItems, selectCartTotal } from '../../state/cart/cart.selectors';
 import { selectCheckoutAddress } from '../../state/checkout/checkout.selectors';
@@ -30,7 +28,10 @@ import * as CheckoutActions from '../../state/checkout/checkout.actions';
     <div *ngIf="items$ | async as items">
       <h2 class="text-xl font-semibold mb-2">Your Items</h2>
 
-      <div *ngFor="let item of items" class="border p-3 rounded mb-3 flex justify-between">
+      <div
+        *ngFor="let item of items"
+        class="border p-3 rounded mb-3 flex justify-between"
+      >
         <div>
           <div class="font-semibold">{{ item.product.name }}</div>
           <div class="text-gray-600">
@@ -70,11 +71,11 @@ export class Step3ConfirmComponent {
   address$ = this.store.select(selectCheckoutAddress);
 
   placeOrder() {
-    // Clear cart and checkout data
+    // 1) Clear cart and checkout data
     this.store.dispatch(CartActions.clearCart());
     this.store.dispatch(CheckoutActions.clearCheckout());
 
-    // Go to products page
-    this.router.navigateByUrl('/shop/products');
+    // 2) Redirect to success page
+    this.router.navigateByUrl('/shop/order/success');
   }
 }

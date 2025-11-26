@@ -13,6 +13,8 @@ import {
 import { addItem } from '../../state/cart/cart.actions';
 import { Product } from '../../state/products/products.models';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-product-details-page',
   standalone: true,
@@ -22,6 +24,7 @@ import { Product } from '../../state/products/products.models';
 export class ProductDetailsPageComponent {
   private route = inject(ActivatedRoute);
   private store = inject(Store);
+  private snack = inject(MatSnackBar);
 
   product$ = this.store.select(selectProductDetails);
   loading$ = this.store.select(selectProductDetailsLoading);
@@ -32,8 +35,14 @@ export class ProductDetailsPageComponent {
     this.store.dispatch(loadProductDetails({ id }));
   }
 
-  // FIXED METHOD
+  // ⭐ ADD TO CART + SNACKBAR ⭐
   addToCart(product: Product) {
     this.store.dispatch(addItem({ product, quantity: 1 }));
+
+    this.snack.open(
+      `✔ Added 1 × ${product.name}`,
+      'OK',
+      { duration: 2000 }
+    );
   }
 }

@@ -35,19 +35,19 @@ export const selectProductsQuery = createSelector(
   (state) => state.query
 );
 
-// ⭐ Selected product details
+//  Selected product details
 export const selectProductDetails = createSelector(
   selectProductsState,
   (state) => state.selected
 );
 
-// ⭐ Loading flag for product details
+//  Loading flag for product details
 export const selectProductDetailsLoading = createSelector(
   selectProductsState,
   (state) => state.loadingSelected
 );
 
-// ⭐ Error flag for product details
+//  Error flag for product details
 export const selectProductDetailsError = createSelector(
   selectProductsState,
   (state) => state.errorSelected
