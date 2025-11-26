@@ -5,7 +5,6 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [NgIf],
   template: `
     <div class="border p-3 mb-4 rounded">
 
