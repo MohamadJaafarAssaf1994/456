@@ -1,14 +1,42 @@
 import { createReducer, on } from '@ngrx/store';
-import { saveAddress, clearCheckout } from './checkout.actions';
+import * as CheckoutActions from './checkout.actions';
 import { CheckoutState, initialCheckoutState } from './checkout.models';
 
 export const checkoutReducer = createReducer(
   initialCheckoutState,
 
-  on(saveAddress, (state, { address }) => ({
+  /* =========================
+     ADDRESS
+     ========================= */
+
+  on(CheckoutActions.saveAddress, (state, { address }) => ({
     ...state,
-    address
+    address,
   })),
 
-  on(clearCheckout, () => initialCheckoutState),
+  /* =========================
+     PROMO CODES
+     ========================= */
+
+  on(CheckoutActions.applyPromo, (state) => ({
+    ...state,
+    promoError: null, // reset error on new attempt
+  })),
+
+  on(CheckoutActions.applyPromoSuccess, (state, { promo }) => ({
+    ...state,
+    promo,
+    promoError: null,
+  })),
+
+  on(CheckoutActions.applyPromoFailure, (state, { error }) => ({
+    ...state,
+    promoError: error,
+  })),
+
+  /* =========================
+     CLEAR
+     ========================= */
+
+  on(CheckoutActions.clearCheckout, () => initialCheckoutState),
 );

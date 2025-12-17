@@ -1,29 +1,37 @@
-<header class="p-4 border-b flex justify-between items-center">
+<header
+  *ngIf="showHeader"
+  class="p-4 border-b flex justify-between items-center"
+>
   <strong>My Shop</strong>
 
   <div class="flex gap-6 items-center">
 
     <!-- Navigation (only when logged in) -->
-    <ng-container *ngIf="username$ | async as user; else notLogged">
+    <ng-container *ngIf="username$ | async as user">
 
-      <!-- Navigation Links -->
-      <nav class="flex gap-4">
+      <nav class="flex gap-4 items-center">
         <a routerLink="/shop/products" class="underline">Products</a>
         <a routerLink="/shop/rating" class="underline">Rating</a>
+        <a routerLink="/account/profile" class="underline">My Profile</a>
+        <a routerLink="/account/orders" class="underline">My Orders</a>
       </nav>
 
-      <!--  NEW CART ICON COMPONENT -->
-      <app-cart-icon></app-cart-icon>
+      <!-- Wishlist & Cart Icons -->
+      <div class="flex gap-2 items-center">
+        <app-wishlist-icon></app-wishlist-icon>
+        <app-cart-icon></app-cart-icon>
+      </div>
 
       <!-- User & Logout -->
       <span class="text-gray-700">Hello, {{ user }}</span>
-      <button (click)="logout()" class="px-3 py-1 border rounded">Logout</button>
-    </ng-container>
+      <button
+        (click)="logout()"
+        class="px-3 py-1 border rounded"
+      >
+        Logout
+      </button>
 
-    <!-- Shown when NOT logged in -->
-    <ng-template #notLogged>
-      <a routerLink="/login" class="underline">Login</a>
-    </ng-template>
+    </ng-container>
 
   </div>
 </header>

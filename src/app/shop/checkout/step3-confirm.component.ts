@@ -4,10 +4,14 @@ import { RouterLink, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { selectCartItems, selectCartTotal } from '../../state/cart/cart.selectors';
-import { selectCheckoutAddress } from '../../state/checkout/checkout.selectors';
+import {
+  selectCheckoutAddress,
+  selectCheckoutPromo
+} from '../../state/checkout/checkout.selectors';
 
 import * as CartActions from '../../state/cart/cart.actions';
 import * as CheckoutActions from '../../state/checkout/checkout.actions';
+import * as UserActions from '../../state/user/user.actions';
 
 @Component({
   selector: 'app-step3-confirm',
@@ -44,9 +48,29 @@ import * as CheckoutActions from '../../state/checkout/checkout.actions';
         </div>
       </div>
 
-      <div class="text-xl font-bold mt-4">
-        Total: {{ total$ | async }} €
+      <!-- TOTALS -->
+      <div class="mt-4 text-lg" *ngIf="promo$ | async as promo; else normalTotal">
+        <div>Articles: {{ promo.itemsTotal }} €</div>
+        <div class="text-green-700">
+          Discount: -{{ promo.discount }} €
+        </div>
+        <div>Shipping: {{ promo.shipping }} €</div>
+        <div>Taxes: {{ promo.taxes }} €</div>
+
+        <div class="text-xl font-bold mt-2">
+          Total: {{ promo.grandTotal }} €
+        </div>
+
+        <div class="text-sm text-green-700 mt-1">
+          Applied: {{ promo.appliedPromos.join(', ') }}
+        </div>
       </div>
+
+      <ng-template #normalTotal>
+        <div class="text-xl font-bold mt-4">
+          Total: {{ total$ | async }} €
+        </div>
+      </ng-template>
     </div>
 
     <!-- PLACE ORDER -->
@@ -69,13 +93,56 @@ export class Step3ConfirmComponent {
   items$ = this.store.select(selectCartItems);
   total$ = this.store.select(selectCartTotal);
   address$ = this.store.select(selectCheckoutAddress);
+  promo$ = this.store.select(selectCheckoutPromo);
 
   placeOrder() {
-    // 1) Clear cart and checkout data
+    let itemsSnapshot: any[] = [];
+    let addressSnapshot: any = null;
+    let promoSnapshot: any = null;
+
+    this.items$.subscribe(v => (itemsSnapshot = v)).unsubscribe();
+    this.address$.subscribe(v => (addressSnapshot = v)).unsubscribe();
+    this.promo$.subscribe(v => (promoSnapshot = v)).unsubscribe();
+
+    const subtotal = itemsSnapshot.reduce(
+      (sum, i) => sum + i.quantity * i.product.price,
+      0
+    );
+
+    const tax = promoSnapshot ? promoSnapshot.taxes : Math.round(subtotal * 0.2);
+    const shipping = promoSnapshot ? promoSnapshot.shipping : 5;
+    const discount = promoSnapshot ? promoSnapshot.discount : 0;
+    const total = promoSnapshot
+      ? promoSnapshot.grandTotal
+      : subtotal + tax + shipping;
+
+    const order = {
+      id: crypto.randomUUID(),
+      date: new Date().toISOString().split('T')[0],
+      status: 'pending',
+      items: itemsSnapshot.map(i => ({
+        productId: i.product.id,
+        name: i.product.name,
+        price: i.product.price,
+        quantity: i.quantity,
+      })),
+      subtotal,
+      discount,
+      tax,
+      shipping,
+      total,
+      appliedPromos: promoSnapshot?.appliedPromos ?? [],
+      address: addressSnapshot,
+    };
+
+    // ✅ SAVE ORDER IN USER STATE
+    this.store.dispatch(UserActions.addUserOrder({ order }));
+
+    // ✅ CLEAR CART + CHECKOUT (promo included)
     this.store.dispatch(CartActions.clearCart());
     this.store.dispatch(CheckoutActions.clearCheckout());
 
-    // 2) Redirect to success page
+    // ✅ REDIRECT
     this.router.navigateByUrl('/shop/order/success');
   }
 }

@@ -1,5 +1,6 @@
 <section class="mx-auto max-w-2xl p-4">
 
+  <!-- BACK -->
   <button routerLink="/shop/products" class="underline text-blue-600">
     ← Back to products
   </button>
@@ -31,13 +32,40 @@
       ⭐ Average Rating: <strong>{{ p._avg ?? 'No rating' }}</strong>
     </p>
 
-    <!-- Add To Cart Button -->
-    <button
-      class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      (click)="addToCart(p)"
-    >
-      Add to Cart
-    </button>
+    <!-- ACTION BUTTONS -->
+    <div class="flex items-center gap-4 flex-wrap">
+
+      <!-- ADD TO CART -->
+      <button
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        (click)="addToCart(p)"
+      >
+        🛒 Add to Cart
+      </button>
+
+      <!-- ❤️ WISHLIST -->
+      <button
+        class="px-4 py-2 border rounded hover:bg-gray-50"
+        (click)="toggleWishlist(p.id)"
+      >
+        <ng-container *ngIf="isInWishlist$ | async; else add">
+          💔 Remove from wishlist
+        </ng-container>
+
+        <ng-template #add>
+          ❤️ Add to wishlist
+        </ng-template>
+      </button>
+
+      <!-- 🧾 GO TO CART -->
+      <a
+        routerLink="/shop/cart"
+        class="px-4 py-2 border rounded hover:bg-gray-50 flex items-center"
+      >
+        🧾 Go to Cart
+      </a>
+
+    </div>
 
   </div>
 </section>

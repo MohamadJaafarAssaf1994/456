@@ -1,0 +1,36 @@
+<section class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">❤️ My Wishlist</h1>
+
+  <ng-container *ngIf="wishlistIds$ | async as ids">
+    <p *ngIf="ids.length === 0" class="text-gray-500">
+      Your wishlist is empty.
+    </p>
+
+    <ng-container *ngIf="products$ | async as products">
+      <div
+        *ngIf="ids.length > 0"
+        class="grid grid-cols-2 md:grid-cols-4 gap-6"
+      >
+        <ng-container *ngFor="let product of products">
+          <app-product-card
+            *ngIf="ids.includes(product.id)"
+            [productId]="product.id"
+            [name]="product.name"
+            [price]="product.price"
+            [created_at]="product.created_at"
+            [avgRating]="product._avg ?? null"
+          >
+          </app-product-card>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <button
+      *ngIf="ids.length > 0"
+      class="mt-6 px-4 py-2 bg-red-600 text-white rounded"
+      (click)="clearAll()"
+    >
+      Clear wishlist
+    </button>
+  </ng-container>
+</section>

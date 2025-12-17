@@ -20,6 +20,13 @@ import { RatingEffects } from './state/rating/rating.effects';
 import { cartReducer } from './state/cart/cart.reducer';
 import { CartEffects } from './state/cart/cart.effects';
 import { checkoutReducer } from './state/checkout/checkout.reducer';
+import { userReducer } from '../app/state/user/user.reducer';
+import { UserEffects } from './state/user/user.effects';
+import { wishlistReducer } from './state/wishlist/wishlist.reducer';
+import { WishlistEffects } from './state/wishlist/wishlist.effects';
+import { CheckoutEffects } from './state/checkout/checkout.effects';
+import { AdminEffects } from './state/admin/admin.effects';
+import { adminReducer } from './state/admin/admin.reducer';
 
 
 
@@ -33,14 +40,21 @@ export const appConfig: ApplicationConfig = {
     products: productsReducer,
     rating: ratingReducer,
     cart: cartReducer,
-    checkout: checkoutReducer
+    checkout: checkoutReducer,
+    user: userReducer,
+    wishlist: wishlistReducer,
+    admin: adminReducer,
 
   }),
   provideEffects([
     AuthEffects,
     ProductsEffects,
     RatingEffects,
-    CartEffects
+    CartEffects,
+    UserEffects,
+    CheckoutEffects,
+    AdminEffects,
+
 
   ]),
   provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),

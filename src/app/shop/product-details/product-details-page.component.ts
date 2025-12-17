@@ -13,12 +13,17 @@ import {
 import { addItem } from '../../state/cart/cart.actions';
 import { Product } from '../../state/products/products.models';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import * as WishlistActions from '../../state/wishlist/wishlist.actions';
+import { selectIsInWishlist } from '../../state/wishlist/wishlist.selectors';
+
+import { switchMap, filter } from 'rxjs';
 
 @Component({
   selector: 'app-product-details-page',
   standalone: true,
-  imports: [AsyncPipe, NgIf, RouterLink],
+  imports: [AsyncPipe, NgIf, RouterLink, MatSnackBarModule],
   templateUrl: './product-details-page.component.html',
 })
 export class ProductDetailsPageComponent {
@@ -26,23 +31,52 @@ export class ProductDetailsPageComponent {
   private store = inject(Store);
   private snack = inject(MatSnackBar);
 
+  // =========================
+  // SELECTORS
+  // =========================
+
   product$ = this.store.select(selectProductDetails);
   loading$ = this.store.select(selectProductDetailsLoading);
   error$ = this.store.select(selectProductDetailsError);
+
+  // ✅ Reactive wishlist status
+  isInWishlist$ = this.product$.pipe(
+    filter((p): p is Product => !!p),
+    switchMap((p) =>
+      this.store.select(selectIsInWishlist(p.id))
+    )
+  );
+
+  // =========================
+  // LIFECYCLE
+  // =========================
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.store.dispatch(loadProductDetails({ id }));
   }
 
-  // ⭐ ADD TO CART + SNACKBAR ⭐
+  // =========================
+  // ACTIONS
+  // =========================
+
   addToCart(product: Product) {
     this.store.dispatch(addItem({ product, quantity: 1 }));
 
     this.snack.open(
-      `✔ Added 1 × ${product.name}`,
+      `"${product.name}" added to cart`,
       'OK',
-      { duration: 2000 }
+      {
+        duration: 2500,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      }
+    );
+  }
+
+  toggleWishlist(productId: number) {
+    this.store.dispatch(
+      WishlistActions.toggleWishlist({ productId })
     );
   }
 }

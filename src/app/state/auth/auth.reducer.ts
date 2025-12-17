@@ -3,45 +3,36 @@ import * as Auth from './auth.actions';
 
 export interface AuthState {
   username: string | null;
-  access: string | null;
-  refresh: string | null;
   isLoggedIn: boolean;
   error: string | null;
 }
 
 export const initialAuthState: AuthState = {
   username: null,
-  access: null,
-  refresh: null,
   isLoggedIn: false,
-  error: null
+  error: null,
 };
 
 export const authReducer = createReducer(
   initialAuthState,
 
-  on(Auth.login, state => ({
+  on(Auth.login, (state) => ({
     ...state,
     error: null,
   })),
 
-  on(Auth.loginSuccess, (state, { username, access, refresh }) => ({
+  on(Auth.loginSuccess, (state, { username }) => ({
     ...state,
     username,
-    access,
-    refresh,
     isLoggedIn: true,
     error: null,
   })),
 
   on(Auth.loginFailure, (state, { error }) => ({
     ...state,
-    error,
     isLoggedIn: false,
+    error,
   })),
 
-  on(Auth.logout, () => ({
-    ...initialAuthState
-  }))
-
+  on(Auth.logout, () => initialAuthState)
 );
