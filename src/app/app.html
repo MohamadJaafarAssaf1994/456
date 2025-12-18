@@ -6,32 +6,43 @@
 
   <div class="flex gap-6 items-center">
 
-    <!-- Navigation (only when logged in) -->
-    <ng-container *ngIf="username$ | async as user">
-
-      <nav class="flex gap-4 items-center">
-        <a routerLink="/shop/products" class="underline">Products</a>
-        <a routerLink="/shop/rating" class="underline">Rating</a>
-        <a routerLink="/account/profile" class="underline">My Profile</a>
-        <a routerLink="/account/orders" class="underline">My Orders</a>
-      </nav>
-
-      <!-- Wishlist & Cart Icons -->
-      <div class="flex gap-2 items-center">
-        <app-wishlist-icon></app-wishlist-icon>
-        <app-cart-icon></app-cart-icon>
-      </div>
-
-      <!-- User & Logout -->
-      <span class="text-gray-700">Hello, {{ user }}</span>
+    <!-- ADMIN HEADER -->
+    <ng-container *ngIf="isAdmin; else userHeader">
       <button
         (click)="logout()"
         class="px-3 py-1 border rounded"
       >
         Logout
       </button>
-
     </ng-container>
+
+    <!-- USER HEADER -->
+    <ng-template #userHeader>
+      <ng-container *ngIf="username$ | async as user">
+
+        <nav class="flex gap-4 items-center">
+          <a routerLink="/shop/products" class="underline">Products</a>
+          <a routerLink="/shop/rating" class="underline">Rating</a>
+          <a routerLink="/account/profile" class="underline">My Profile</a>
+          <a routerLink="/account/orders" class="underline">My Orders</a>
+        </nav>
+
+        <div class="flex gap-2 items-center">
+          <app-wishlist-icon></app-wishlist-icon>
+          <app-cart-icon></app-cart-icon>
+        </div>
+
+        <span class="text-gray-700">Hello, {{ user }}</span>
+
+        <button
+          (click)="logout()"
+          class="px-3 py-1 border rounded"
+        >
+          Logout
+        </button>
+
+      </ng-container>
+    </ng-template>
 
   </div>
 </header>

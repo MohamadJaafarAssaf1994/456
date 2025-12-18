@@ -36,8 +36,11 @@ export class App {
   username$ = this.store.select(selectUsername);
   cartCount$ = this.store.select(selectCartCount);
 
-  /** 👇 THIS CONTROLS THE HEADER */
+  /** HEADER VISIBILITY */
   showHeader = false;
+
+  /** 👑 ADMIN MODE (used in app.html) */
+  isAdmin = false;
 
   constructor() {
     this.router.events
@@ -47,6 +50,9 @@ export class App {
 
         // ❌ Hide header on login & home
         this.showHeader = url !== '/login' && url !== '/';
+
+        // 👑 Detect admin routes
+        this.isAdmin = url.startsWith('/admin');
       });
   }
 

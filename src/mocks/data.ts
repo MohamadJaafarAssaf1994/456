@@ -7,7 +7,7 @@ export interface Product {
   ratings: { user_id: number; value: number }[];
 }
 
-export const products: Product[] = [
+export let products: Product[] = [
   {
     id: 1,
     name: 'Stylo Bleu',

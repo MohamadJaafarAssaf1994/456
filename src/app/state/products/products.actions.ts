@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { Product, ProductsQuery } from './products.models';
 
+/* =========================
+   LOAD PRODUCTS (SHOP)
+   ========================= */
+
 export const loadProducts = createAction(
   '[Products] Load',
   props<{ query: Partial<ProductsQuery> }>()
@@ -16,20 +20,50 @@ export const loadProductsFailure = createAction(
   props<{ error: string }>()
 );
 
-//  Load product details
+/* =========================
+   PRODUCT DETAILS
+   ========================= */
+
 export const loadProductDetails = createAction(
   '[Products] Load Product Details',
   props<{ id: number }>()
 );
 
-//  Success
 export const loadProductDetailsSuccess = createAction(
   '[Products] Load Product Details Success',
   props<{ product: Product }>()
 );
 
-//  Failure
 export const loadProductDetailsFailure = createAction(
   '[Products] Load Product Details Failure',
+  props<{ error: string }>()
+);
+
+/* =========================
+   ADMIN – ADD PRODUCT
+   ========================= */
+
+/**
+ * Triggered by admin form
+ * (name + price only, backend/MSW fills the rest)
+ */
+export const addProduct = createAction(
+  '[Admin Products] Add Product',
+  props<{ name: string; price: number }>()
+);
+
+/**
+ * Called when backend/MSW returns the created product
+ */
+export const addProductSuccess = createAction(
+  '[Admin Products] Add Product Success',
+  props<{ product: Product }>()
+);
+
+/**
+ * Error while adding product
+ */
+export const addProductFailure = createAction(
+  '[Admin Products] Add Product Failure',
   props<{ error: string }>()
 );

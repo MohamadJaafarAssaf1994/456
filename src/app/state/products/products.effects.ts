@@ -6,9 +6,7 @@ import { of } from 'rxjs';
 import { ShopApiService } from '../../services/shop-api.service';
 import { Store } from '@ngrx/store';
 import { selectProductsQuery } from './products.selectors';
-import { loadProductDetails, loadProductDetailsSuccess, loadProductDetailsFailure } from './products.actions';
 import { HttpClient } from '@angular/common/http';
-
 
 @Injectable()
 export class ProductsEffects {
@@ -18,17 +16,14 @@ export class ProductsEffects {
   private store = inject(Store);
   private http = inject(HttpClient);
 
-  /**
-   * Load products from MSW API with filters
-   */
+  /* =========================
+     LOAD PRODUCTS
+     ========================= */
+
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(Products.loadProducts),
-
-      // Get latest query from store
       withLatestFrom(this.store.select(selectProductsQuery)),
-
-      // Merge old + new query
       mergeMap(([action, currentQuery]) => {
         const finalQuery = { ...currentQuery, ...action.query };
 
@@ -39,7 +34,7 @@ export class ProductsEffects {
           catchError((err) =>
             of(
               Products.loadProductsFailure({
-                error: err?.message ?? 'Error loading products'
+                error: err?.message ?? 'Error loading products',
               })
             )
           )
@@ -47,6 +42,10 @@ export class ProductsEffects {
       })
     )
   );
+
+  /* =========================
+     PRODUCT DETAILS
+     ========================= */
 
   loadProductDetails$ = createEffect(() =>
     this.actions$.pipe(
@@ -59,7 +58,7 @@ export class ProductsEffects {
           catchError((err) =>
             of(
               Products.loadProductDetailsFailure({
-                error: err.message || 'Failed to load product'
+                error: err.message || 'Failed to load product',
               })
             )
           )
@@ -68,4 +67,27 @@ export class ProductsEffects {
     )
   );
 
+  /* =========================
+     ADMIN – ADD PRODUCT  ✅ NEW
+     ========================= */
+
+  addProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(Products.addProduct),
+      mergeMap(({ name, price }) =>
+        this.http.post('/api/admin/products/', { name, price }).pipe(
+          map((product: any) =>
+            Products.addProductSuccess({ product })
+          ),
+          catchError((err) =>
+            of(
+              Products.addProductFailure({
+                error: err.message || 'Failed to add product',
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 }

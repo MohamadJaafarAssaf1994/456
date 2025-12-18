@@ -271,7 +271,46 @@ export const handlers = [
   }),
 
   /* =========================
-     ADMIN DASHBOARD (NEW)
+     ADMIN – ADD PRODUCT ✅
+     ========================= */
+
+  http.post(`${API}/admin/products/`, async ({ request }) => {
+  const body = (await request.json()) as {
+    name: string;
+    price: number;
+    owner_id?: number;
+  };
+
+  if (!body?.name || typeof body.price !== 'number' || body.price <= 0) {
+    return HttpResponse.json({ message: 'Invalid product data' }, { status: 400 });
+  }
+
+  // choose a default owner for admin-created products
+  const ownerId = typeof body.owner_id === 'number' ? body.owner_id : 1;
+
+  const nextId = products.length
+    ? Math.max(...products.map((p: any) => p.id)) + 1
+    : 1;
+
+  const newProduct = {
+    id: nextId,
+    name: body.name,
+    price: body.price,
+    created_at: new Date().toISOString().split('T')[0],
+    owner_id: ownerId,      // ✅ REQUIRED
+    ratings: [],
+    _avg: null,
+  };
+
+  // If products is readonly in TS, keep the productsDb approach.
+  // If you already created productsDb, use: productsDb.unshift(newProduct);
+  (products as any[]).unshift(newProduct);
+
+  return HttpResponse.json(newProduct, { status: 201 });
+}),
+
+  /* =========================
+     ADMIN DASHBOARD
      ========================= */
 
   http.get(`${API}/admin/stats/`, () => {
