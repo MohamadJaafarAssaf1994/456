@@ -51,7 +51,7 @@ import * as CheckoutActions from '../../state/checkout/checkout.actions';
     <input
       [(ngModel)]="promoCode"
       placeholder="WELCOME10"
-      class="border rounded px-3 py-2 w-40"
+      class="border rounded px-3 py-2 w-40 placeholder-gray-400"
     />
     <button
       (click)="applyPromo()"
