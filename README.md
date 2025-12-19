@@ -130,17 +130,15 @@ Run unit tests using Karma:
 
 ng test
 
-Running end-to-end tests
-ng e2e
-(Cypress)
+npm run lint
 
 Project Structure
-src/app/
- ├─ state/            → NgRx store (auth, products, rating)
- ├─ features/         → Pages (login, products, rating)
- ├─ ui/               → UI components (login form)
- ├─ app.routes.ts     → Application routes
- ├─ app.ts / app.html → Root component
-src/mocks/
- ├─ handlers.ts       → Mock API endpoints
- ├─ browser.ts        → MSW setup
+src/
+ ├── app/
+ │   ├── features/        # Pages (auth, products, rating…)
+ │   ├── shop/            # Cart, checkout, wishlist
+ │   ├── state/           # NgRx state (actions, reducers, effects)
+ │   ├── ui/              # Reusable UI components
+ │   └── services/        # API services
+ ├── mocks/               # MSW mocks
+ └── environments/
