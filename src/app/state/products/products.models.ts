@@ -29,7 +29,7 @@ export const initialProductsState: ProductsState = {
     page: 1,
     pageSize: 10,
     minRating: 0,
-    ordering: '-created_at'
+    ordering: '-created_at',
   },
   count: 0,
   results: [],
@@ -37,5 +37,5 @@ export const initialProductsState: ProductsState = {
   error: null,
   selected: null,
   loadingSelected: false,
-  errorSelected: null
+  errorSelected: null,
 };

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { http, HttpResponse } from 'msw';
 import { products } from './data';
 import { paginate, avgRating } from './utils';
@@ -99,15 +98,12 @@ export const handlers = [
         access: 'mock-access-token',
         refresh: 'mock-refresh-token',
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 
   http.post(`${API}/auth/token/refresh/`, async () => {
-    return HttpResponse.json(
-      { access: 'mock-access-token-refreshed' },
-      { status: 200 }
-    );
+    return HttpResponse.json({ access: 'mock-access-token-refreshed' }, { status: 200 });
   }),
 
   /* =========================
@@ -127,17 +123,11 @@ export const handlers = [
 
     const sign = ordering.startsWith('-') ? -1 : 1;
     const key = ordering.replace(/^-/, '');
-    rows.sort(
-      (a: any, b: any) =>
-        (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0) * sign
-    );
+    rows.sort((a: any, b: any) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0) * sign);
 
     const { count, results } = paginate(rows, page, page_size);
 
-    return HttpResponse.json(
-      { count, next: null, previous: null, results },
-      { status: 200 }
-    );
+    return HttpResponse.json({ count, next: null, previous: null, results }, { status: 200 });
   }),
 
   http.get(`${API}/products/:id`, async ({ params }) => {
@@ -148,10 +138,7 @@ export const handlers = [
       return HttpResponse.json({ detail: 'Not found.' }, { status: 404 });
     }
 
-    return HttpResponse.json(
-      { ...p, _avg: avgRating(p.ratings) },
-      { status: 200 }
-    );
+    return HttpResponse.json({ ...p, _avg: avgRating(p.ratings) }, { status: 200 });
   }),
 
   http.get(`${API}/products/:id/rating/`, async ({ params }) => {
@@ -168,7 +155,7 @@ export const handlers = [
         avg_rating: avgRating(p.ratings),
         count: p.ratings.length,
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 
@@ -196,10 +183,7 @@ export const handlers = [
   }),
 
   http.get(`${API}/me/orders`, () => {
-    return HttpResponse.json(
-      USE_MOCK_ORDERS ? mockOrders : [],
-      { status: 200 }
-    );
+    return HttpResponse.json(USE_MOCK_ORDERS ? mockOrders : [], { status: 200 });
   }),
 
   http.get(`${API}/orders/:id`, ({ params }) => {
@@ -219,19 +203,16 @@ export const handlers = [
 
   http.post(`${API}/cart/apply-promo/`, async ({ request }) => {
     const body = (await request.json()) as {
-      items: Array<{
+      items: {
         product: { price: number };
         quantity: number;
-      }>;
+      }[];
       code: string;
     };
 
     const { items, code } = body;
 
-    const itemsTotal = items.reduce(
-      (sum, i) => sum + i.product.price * i.quantity,
-      0
-    );
+    const itemsTotal = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 
     let discount = 0;
     let shipping = 10;
@@ -246,18 +227,12 @@ export const handlers = [
       appliedPromos.push(code);
     } else if (code === 'VIP20') {
       if (itemsTotal < 200) {
-        return HttpResponse.json(
-          { message: 'VIP20 requires minimum 200€' },
-          { status: 400 }
-        );
+        return HttpResponse.json({ message: 'VIP20 requires minimum 200€' }, { status: 400 });
       }
       discount = Math.round(itemsTotal * 0.2);
       appliedPromos.push(code);
     } else {
-      return HttpResponse.json(
-        { message: 'Invalid promo code' },
-        { status: 400 }
-      );
+      return HttpResponse.json({ message: 'Invalid promo code' }, { status: 400 });
     }
 
     return HttpResponse.json({
@@ -275,39 +250,37 @@ export const handlers = [
      ========================= */
 
   http.post(`${API}/admin/products/`, async ({ request }) => {
-  const body = (await request.json()) as {
-    name: string;
-    price: number;
-    owner_id?: number;
-  };
+    const body = (await request.json()) as {
+      name: string;
+      price: number;
+      owner_id?: number;
+    };
 
-  if (!body?.name || typeof body.price !== 'number' || body.price <= 0) {
-    return HttpResponse.json({ message: 'Invalid product data' }, { status: 400 });
-  }
+    if (!body?.name || typeof body.price !== 'number' || body.price <= 0) {
+      return HttpResponse.json({ message: 'Invalid product data' }, { status: 400 });
+    }
 
-  // choose a default owner for admin-created products
-  const ownerId = typeof body.owner_id === 'number' ? body.owner_id : 1;
+    // choose a default owner for admin-created products
+    const ownerId = typeof body.owner_id === 'number' ? body.owner_id : 1;
 
-  const nextId = products.length
-    ? Math.max(...products.map((p: any) => p.id)) + 1
-    : 1;
+    const nextId = products.length ? Math.max(...products.map((p: any) => p.id)) + 1 : 1;
 
-  const newProduct = {
-    id: nextId,
-    name: body.name,
-    price: body.price,
-    created_at: new Date().toISOString().split('T')[0],
-    owner_id: ownerId,      // ✅ REQUIRED
-    ratings: [],
-    _avg: null,
-  };
+    const newProduct = {
+      id: nextId,
+      name: body.name,
+      price: body.price,
+      created_at: new Date().toISOString().split('T')[0],
+      owner_id: ownerId, // ✅ REQUIRED
+      ratings: [],
+      _avg: null,
+    };
 
-  // If products is readonly in TS, keep the productsDb approach.
-  // If you already created productsDb, use: productsDb.unshift(newProduct);
-  (products as any[]).unshift(newProduct);
+    // If products is readonly in TS, keep the productsDb approach.
+    // If you already created productsDb, use: productsDb.unshift(newProduct);
+    (products as any[]).unshift(newProduct);
 
-  return HttpResponse.json(newProduct, { status: 201 });
-}),
+    return HttpResponse.json(newProduct, { status: 201 });
+  }),
 
   /* =========================
      ADMIN DASHBOARD
@@ -350,7 +323,7 @@ export const handlers = [
           },
         ],
       },
-      { status: 200 }
+      { status: 200 },
     );
   }),
 ];

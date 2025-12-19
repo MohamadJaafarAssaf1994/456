@@ -22,8 +22,8 @@ export default {
           cart: cartReducer,
         }),
       ],
-    })
-  ]
+    }),
+  ],
 } as Meta<CartIconComponent>;
 
 export const Default: StoryObj<CartIconComponent> = {

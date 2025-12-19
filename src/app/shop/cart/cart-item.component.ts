@@ -7,17 +7,13 @@ import { NgIf } from '@angular/common';
   standalone: true,
   template: `
     <div class="border p-3 mb-4 rounded">
-
       <div class="flex justify-between">
         <div>
           <h3 class="text-lg font-semibold">{{ item.product.name }}</h3>
           <p class="text-gray-600">{{ item.product.price }} €</p>
         </div>
 
-        <button
-          class="text-red-600 underline"
-          (click)="remove.emit(item.product.id)"
-        >
+        <button class="text-red-600 underline" (click)="remove.emit(item.product.id)">
           Remove
         </button>
       </div>

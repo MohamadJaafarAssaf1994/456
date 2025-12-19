@@ -30,21 +30,16 @@ export class CheckoutEffects {
             code,
           })
           .pipe(
-            map((promo) =>
-              CheckoutActions.applyPromoSuccess({ promo })
-            ),
+            map((promo) => CheckoutActions.applyPromoSuccess({ promo })),
             catchError((err) =>
               of(
                 CheckoutActions.applyPromoFailure({
-                  error:
-                    err?.error?.message ||
-                    err.message ||
-                    'Invalid promo code',
-                })
-              )
-            )
-          )
-      )
-    )
+                  error: err?.error?.message || err.message || 'Invalid promo code',
+                }),
+              ),
+            ),
+          ),
+      ),
+    ),
   );
 }

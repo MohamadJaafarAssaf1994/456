@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
-
   private actions$ = inject(Actions);
   private api = inject(ShopApiService);
   private router = inject(Router);
@@ -18,23 +17,21 @@ export class AuthEffects {
       ofType(Auth.login),
       mergeMap(({ username, password }) =>
         this.api.login(username, password).pipe(
-          map(({ access, refresh }) =>
-            Auth.loginSuccess({ username, access, refresh })
+          map(({ access, refresh }) => Auth.loginSuccess({ username, access, refresh })),
+          catchError((err) =>
+            of(Auth.loginFailure({ error: err?.error?.detail ?? 'Invalid login' })),
           ),
-          catchError(err =>
-            of(Auth.loginFailure({ error: err?.error?.detail ?? 'Invalid login' }))
-          )
-        )
-      )
-    )
+        ),
+      ),
+    ),
   );
 
   loginSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(Auth.loginSuccess),
-        tap(() => this.router.navigateByUrl('/shop/products'))
+        tap(() => this.router.navigateByUrl('/shop/products')),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }

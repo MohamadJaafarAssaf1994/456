@@ -20,19 +20,17 @@ export class UserEffects {
       ofType(UserActions.loadUserProfile),
       mergeMap(() =>
         this.http.get('/api/me/').pipe(
-          map((profile) =>
-            UserActions.loadUserProfileSuccess({ profile })
-          ),
+          map((profile) => UserActions.loadUserProfileSuccess({ profile })),
           catchError((err) =>
             of(
               UserActions.loadUserProfileFailure({
                 error: err.message || 'Failed to load profile',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   /* =========================
@@ -43,19 +41,17 @@ export class UserEffects {
       ofType(UserActions.updateUserProfile),
       mergeMap(({ changes }) =>
         this.http.patch('/api/me/', changes).pipe(
-          map((profile) =>
-            UserActions.updateUserProfileSuccess({ profile })
-          ),
+          map((profile) => UserActions.updateUserProfileSuccess({ profile })),
           catchError((err) =>
             of(
               UserActions.updateUserProfileFailure({
                 error: err.message || 'Failed to update profile',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   /* =========================
@@ -66,19 +62,17 @@ export class UserEffects {
       ofType(UserActions.loadUserOrders),
       mergeMap(() =>
         this.http.get<OrderSummary[]>('/api/me/orders/').pipe(
-          map((orders) =>
-            UserActions.loadUserOrdersSuccess({ orders })
-          ),
+          map((orders) => UserActions.loadUserOrdersSuccess({ orders })),
           catchError((err) =>
             of(
               UserActions.loadUserOrdersFailure({
                 error: err.message || 'Failed to load orders',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   /* =========================
@@ -89,18 +83,16 @@ export class UserEffects {
       ofType(UserActions.loadOrderDetails),
       mergeMap(({ id }) =>
         this.http.get<OrderDetails>(`/api/orders/${id}/`).pipe(
-          map((order) =>
-            UserActions.loadOrderDetailsSuccess({ order })
-          ),
+          map((order) => UserActions.loadOrderDetailsSuccess({ order })),
           catchError((err) =>
             of(
               UserActions.loadOrderDetailsFailure({
                 error: err.message || 'Failed to load order',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

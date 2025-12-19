@@ -16,10 +16,10 @@ export const wishlistReducer = createReducer(
     return {
       ...state,
       productIds: exists
-        ? state.productIds.filter(id => id !== productId)
+        ? state.productIds.filter((id) => id !== productId)
         : [...state.productIds, productId],
     };
   }),
 
-  on(WishlistActions.clearWishlist, () => initialWishlistState)
+  on(WishlistActions.clearWishlist, () => initialWishlistState),
 );

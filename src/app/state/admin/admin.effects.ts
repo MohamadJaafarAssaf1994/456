@@ -25,20 +25,16 @@ export class AdminEffects {
       ofType(AdminActions.loadAdminStats),
       mergeMap(() =>
         this.http.get<AdminStats>('/api/admin/stats/').pipe(
-          map((stats) =>
-            AdminActions.loadAdminStatsSuccess({ stats })
-          ),
+          map((stats) => AdminActions.loadAdminStatsSuccess({ stats })),
           catchError((err) =>
             of(
               AdminActions.loadAdminStatsFailure({
-                error:
-                  err?.message ||
-                  'Failed to load admin statistics',
-              })
-            )
-          )
-        )
-      )
-    )
+                error: err?.message || 'Failed to load admin statistics',
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

@@ -10,13 +10,9 @@ import { RouterLink } from '@angular/router';
       class="min-h-screen flex flex-col items-center justify-center
              px-4 space-y-6 bg-gray-50"
     >
-      <h1 class="text-3xl font-bold tracking-tight text-blue-600">
-        Bienvenue sur My Shop
-      </h1>
+      <h1 class="text-3xl font-bold tracking-tight text-blue-600">Bienvenue sur My Shop</h1>
 
-      <p class="text-gray-600">
-        Choisis une zone :
-      </p>
+      <p class="text-gray-600">Choisis une zone :</p>
 
       <div class="flex gap-4">
         <button

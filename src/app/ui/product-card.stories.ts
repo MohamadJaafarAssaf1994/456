@@ -8,8 +8,8 @@ const meta: Meta<ProductCardComponent> = {
     name: 'Blue Pen',
     price: 2.5,
     created_at: '2025-02-18',
-    avgRating: 4.3
-  }
+    avgRating: 4.3,
+  },
 };
 
 export default meta;

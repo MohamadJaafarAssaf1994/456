@@ -7,7 +7,6 @@ import * as CartActions from '../../state/cart/cart.actions';
 import { RouterLink } from '@angular/router';
 import { CartItemComponent } from './cart-item.component';
 
-
 @Component({
   selector: 'app-cart-page',
   standalone: true,
@@ -15,7 +14,6 @@ import { CartItemComponent } from './cart-item.component';
   templateUrl: './cart-page.component.html',
 })
 export class CartPageComponent {
-
   private store = inject(Store);
 
   items$ = this.store.select(selectCartItems);
@@ -30,7 +28,6 @@ export class CartPageComponent {
   }
 
   clearAll() {
-  this.store.dispatch(CartActions.clearCart());
+    this.store.dispatch(CartActions.clearCart());
   }
-
 }

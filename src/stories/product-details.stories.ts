@@ -27,13 +27,13 @@ export default {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: { paramMap: { get: () => '1' }},
-            params: of({ id: 1 })
-          }
-        }
-      ]
-    })
-  ]
+            snapshot: { paramMap: { get: () => '1' } },
+            params: of({ id: 1 }),
+          },
+        },
+      ],
+    }),
+  ],
 } as Meta<ProductDetailsPageComponent>;
 
 // ⭐ Story with name "Example"

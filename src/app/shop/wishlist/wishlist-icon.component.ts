@@ -18,7 +18,7 @@ import { selectWishlistCount } from '../../state/wishlist/wishlist.selectors';
       ❤️
 
       <span
-        *ngIf="(count$ | async) as count"
+        *ngIf="count$ | async as count"
         class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full
                w-5 h-5 flex items-center justify-center"
       >

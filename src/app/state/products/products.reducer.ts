@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import * as Products from './products.actions';
 import { ProductsState, initialProductsState } from './products.models';
 
-
 export const productsReducer = createReducer(
   initialProductsState,
 
@@ -10,38 +9,38 @@ export const productsReducer = createReducer(
     ...state,
     query: { ...state.query, ...query },
     loading: true,
-    error: null
+    error: null,
   })),
 
   on(Products.loadProductsSuccess, (state, { count, results }) => ({
     ...state,
     count,
     results,
-    loading: false
+    loading: false,
   })),
 
   on(Products.loadProductsFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
   })),
 
-    on(Products.loadProductDetails, (state) => ({
-      ...state,
-      loadingSelected: true,
-      errorSelected: null,
-      selected: null
-    })),
+  on(Products.loadProductDetails, (state) => ({
+    ...state,
+    loadingSelected: true,
+    errorSelected: null,
+    selected: null,
+  })),
 
-    on(Products.loadProductDetailsSuccess, (state, { product }) => ({
-      ...state,
-      loadingSelected: false,
-      selected: product
-    })),
+  on(Products.loadProductDetailsSuccess, (state, { product }) => ({
+    ...state,
+    loadingSelected: false,
+    selected: product,
+  })),
 
-    on(Products.loadProductDetailsFailure, (state, { error }) => ({
-      ...state,
-      loadingSelected: false,
-      errorSelected: error
-    })),
+  on(Products.loadProductDetailsFailure, (state, { error }) => ({
+    ...state,
+    loadingSelected: false,
+    errorSelected: error,
+  })),
 );

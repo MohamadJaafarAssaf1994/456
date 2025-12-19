@@ -1,25 +1,15 @@
-<header
-  *ngIf="showHeader"
-  class="p-4 border-b flex justify-between items-center"
->
+<header *ngIf="showHeader" class="p-4 border-b flex justify-between items-center">
   <strong>My Shop</strong>
 
   <div class="flex gap-6 items-center">
-
     <!-- ADMIN HEADER -->
     <ng-container *ngIf="isAdmin; else userHeader">
-      <button
-        (click)="logout()"
-        class="px-3 py-1 border rounded"
-      >
-        Logout
-      </button>
+      <button (click)="logout()" class="px-3 py-1 border rounded">Logout</button>
     </ng-container>
 
     <!-- USER HEADER -->
     <ng-template #userHeader>
       <ng-container *ngIf="username$ | async as user">
-
         <nav class="flex gap-4 items-center">
           <a routerLink="/shop/products" class="underline">Products</a>
           <a routerLink="/shop/rating" class="underline">Rating</a>
@@ -34,16 +24,9 @@
 
         <span class="text-gray-700">Hello, {{ user }}</span>
 
-        <button
-          (click)="logout()"
-          class="px-3 py-1 border rounded"
-        >
-          Logout
-        </button>
-
+        <button (click)="logout()" class="px-3 py-1 border rounded">Logout</button>
       </ng-container>
     </ng-template>
-
   </div>
 </header>
 

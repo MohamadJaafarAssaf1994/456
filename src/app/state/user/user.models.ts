@@ -13,8 +13,8 @@ export interface UserState {
     };
   } | null;
 
-  orders: OrderSummary[];              // list page
-  selectedOrder: OrderDetails | null;  // details page ✅
+  orders: OrderSummary[]; // list page
+  selectedOrder: OrderDetails | null; // details page ✅
 
   loading: boolean;
   error: string | null;
@@ -23,7 +23,7 @@ export interface UserState {
 export const initialUserState: UserState = {
   profile: null,
   orders: [],
-  selectedOrder: null,                 // ✅ REQUIRED
+  selectedOrder: null, // ✅ REQUIRED
   loading: false,
   error: null,
 };

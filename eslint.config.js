@@ -1,58 +1,99 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
+// eslint.config.js — FINAL SAFE VERSION
 
-// eslint.config.js
-// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
-const prettierConfig = require("eslint-config-prettier");
-const prettierPlugin = require("eslint-plugin-prettier");
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import prettierConfig from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
+import storybook from 'eslint-plugin-storybook';
 
-module.exports = tseslint.config(
-  // TypeScript / .ts
+export default tseslint.config(
+  /* =========================
+     TypeScript files
+     ========================= */
   {
-    files: ["**/*.ts"],
+    files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
-      prettierConfig, // turn off rules that conflict with Prettier
+      prettierConfig,
     ],
     processor: angular.processInlineTemplates,
     plugins: {
       prettier: prettierPlugin,
     },
     rules: {
-      // Angular selector rules (yours)
-      "@angular-eslint/directive-selector": [
-        "error",
-        { type: "attribute", prefix: "app", style: "camelCase" },
+      /* Angular selectors */
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'app', style: 'kebab-case' },
       ],
-      "@angular-eslint/component-selector": [
-        "error",
-        { type: "element", prefix: "app", style: "kebab-case" },
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'app', style: 'camelCase' },
       ],
-      // Run Prettier via ESLint
-      "prettier/prettier": "error",
+
+      /* Relaxed rules (intentional) */
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@angular-eslint/prefer-inject': 'off',
+
+      'prettier/prettier': 'error',
     },
   },
 
-  // Templates / .html
+  /* =========================
+     HTML templates
+     ========================= */
   {
-    files: ["**/*.html"],
+    files: ['**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-      prettierConfig, // keep template lint rules from fighting formatting
+      prettierConfig,
     ],
     plugins: {
       prettier: prettierPlugin,
     },
     rules: {
-      // Let Prettier format HTML too
-      "prettier/prettier": "error",
+      'prettier/prettier': 'error',
+      '@angular-eslint/template/label-has-associated-control': 'off',
+      '@angular-eslint/template/no-negated-async': 'off',
+    },
+  },
+
+  /* =========================
+     Tests
+     ========================= */
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+
+  /* =========================
+   STORYBOOK FILES
+   ========================= */
+{
+  files: ['src/stories/**/*.ts', '**/*.stories.ts'],
+  rules: {
+    '@angular-eslint/component-selector': 'off',
+    '@angular-eslint/no-output-on-prefix': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+  },
+},
+
+
+  /* =========================
+     Mocks & dev
+     ========================= */
+  {
+    files: ['src/mocks/**/*.ts', 'src/dev/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   }
 );

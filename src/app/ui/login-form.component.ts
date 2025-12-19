@@ -7,12 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   standalone: true,
   selector: 'app-login-form',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   template: `
     <form [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field class="w-full">
@@ -41,8 +36,8 @@ export class LoginFormComponent {
 
   submit() {
     this.submitForm.emit({
-        username: this.form.value.username ?? '',
-        password: this.form.value.password ?? '',
-});
+      username: this.form.value.username ?? '',
+      password: this.form.value.password ?? '',
+    });
   }
 }

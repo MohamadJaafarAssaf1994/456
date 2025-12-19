@@ -3,14 +3,8 @@ import { CartState, CartItem, initialCartState } from './cart.models';
 import * as CartActions from './cart.actions';
 
 function calculateTotals(items: CartItem[]) {
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
-  );
-  const count = items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const totalPrice = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const count = items.reduce((sum, item) => sum + item.quantity, 0);
   return { totalPrice, count };
 }
 
@@ -19,16 +13,14 @@ export const cartReducer = createReducer(
 
   // ADD ITEM
   on(CartActions.addItem, (state, { product, quantity }) => {
-    const existing = state.items.find(i => i.product.id === product.id);
+    const existing = state.items.find((i) => i.product.id === product.id);
 
     let newItems: CartItem[];
 
     if (existing) {
       // Increase quantity
-      newItems = state.items.map(i =>
-        i.product.id === product.id
-          ? { ...i, quantity: i.quantity + quantity }
-          : i
+      newItems = state.items.map((i) =>
+        i.product.id === product.id ? { ...i, quantity: i.quantity + quantity } : i,
       );
     } else {
       // Add new item
@@ -47,7 +39,7 @@ export const cartReducer = createReducer(
 
   // REMOVE ITEM
   on(CartActions.removeItem, (state, { productId }) => {
-    const newItems = state.items.filter(i => i.product.id !== productId);
+    const newItems = state.items.filter((i) => i.product.id !== productId);
 
     const { totalPrice, count } = calculateTotals(newItems);
 
@@ -61,9 +53,7 @@ export const cartReducer = createReducer(
 
   // UPDATE QUANTITY
   on(CartActions.updateQuantity, (state, { productId, quantity }) => {
-    const newItems = state.items.map(i =>
-      i.product.id === productId ? { ...i, quantity } : i
-    );
+    const newItems = state.items.map((i) => (i.product.id === productId ? { ...i, quantity } : i));
 
     const { totalPrice, count } = calculateTotals(newItems);
 
@@ -76,5 +66,5 @@ export const cartReducer = createReducer(
   }),
 
   // CLEAR CART
-  on(CartActions.clearCart, () => initialCartState)
+  on(CartActions.clearCart, () => initialCartState),
 );

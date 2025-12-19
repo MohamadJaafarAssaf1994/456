@@ -7,9 +7,7 @@ import { NgFor } from '@angular/common';
   imports: [NgFor],
   template: `
     <ul>
-      <li *ngFor="let p of items">
-        {{ p.id }} — {{ p.name }} — €{{ p.price }}
-      </li>
+      <li *ngFor="let p of items">{{ p.id }} — {{ p.name }} — €{{ p.price }}</li>
     </ul>
   `,
 })

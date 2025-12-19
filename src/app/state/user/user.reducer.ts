@@ -91,23 +91,22 @@ export const userReducer = createReducer(
   })),
 
   on(UserActions.addUserOrder, (state, { order }) => ({
-  ...state,
-  orders: [
-    {
-      id: order.id,
-      date: order.date,
-      status: order.status,
-      total: order.total,
-    },
-    ...state.orders,
-   ],
-   selectedOrder: order, // keep full details here
+    ...state,
+    orders: [
+      {
+        id: order.id,
+        date: order.date,
+        status: order.status,
+        total: order.total,
+      },
+      ...state.orders,
+    ],
+    selectedOrder: order, // keep full details here
   })),
-
 
   /* =========================
      CLEANUP
      ========================= */
 
-  on(UserActions.clearUser, () => initialUserState)
+  on(UserActions.clearUser, () => initialUserState),
 );

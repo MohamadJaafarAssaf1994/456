@@ -7,7 +7,7 @@ import { CheckoutAddress, PromoResult } from './checkout.models';
 
 export const saveAddress = createAction(
   '[Checkout] Save Address',
-  props<{ address: CheckoutAddress }>()
+  props<{ address: CheckoutAddress }>(),
 );
 
 export const clearCheckout = createAction('[Checkout] Clear Checkout');
@@ -16,17 +16,14 @@ export const clearCheckout = createAction('[Checkout] Clear Checkout');
    PROMO CODES
    ========================= */
 
-export const applyPromo = createAction(
-  '[Checkout] Apply Promo',
-  props<{ code: string }>()
-);
+export const applyPromo = createAction('[Checkout] Apply Promo', props<{ code: string }>());
 
 export const applyPromoSuccess = createAction(
   '[Checkout] Apply Promo Success',
-  props<{ promo: PromoResult }>()
+  props<{ promo: PromoResult }>(),
 );
 
 export const applyPromoFailure = createAction(
   '[Checkout] Apply Promo Failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );

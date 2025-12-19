@@ -14,9 +14,7 @@ import { LoginFormComponent } from '../../ui/login-form.component';
              px-4 bg-gray-50"
     >
       <div class="w-full max-w-md bg-white p-6 rounded-lg shadow">
-        <h2 class="text-2xl mb-4 font-semibold text-center">
-          Login
-        </h2>
+        <h2 class="text-2xl mb-4 font-semibold text-center">Login</h2>
 
         <app-login-form (submitForm)="onSubmit($event)"></app-login-form>
 
@@ -28,17 +26,15 @@ import { LoginFormComponent } from '../../ui/login-form.component';
         </p>
       </div>
     </section>
-  `
+  `,
 })
 export class LoginPageComponent {
-
   constructor(
     private store: Store,
-    private router: Router
+    private router: Router,
   ) {}
 
   onSubmit(data: { username: string; password: string }) {
-
     /* =========================
        👑 ADMIN SHORTCUT
        ========================= */
@@ -53,8 +49,8 @@ export class LoginPageComponent {
     this.store.dispatch(
       login({
         username: data.username,
-        password: data.password
-      })
+        password: data.password,
+      }),
     );
 
     this.router.navigateByUrl('/shop/products');

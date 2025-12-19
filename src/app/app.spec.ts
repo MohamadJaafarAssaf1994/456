@@ -11,10 +11,10 @@ describe('App', () => {
           initialState: {
             auth: { username: 'test', isLoggedIn: true },
             products: {},
-            rating: {}
-          }
-        })
-      ]
+            rating: {},
+          },
+        }),
+      ],
     }).compileComponents();
   });
 

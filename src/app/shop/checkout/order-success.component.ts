@@ -7,17 +7,13 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <div class="max-w-xl mx-auto mt-10 text-center space-y-4">
-      <h1 class="text-3xl font-bold text-green-600">
-        ✅ Order Confirmed!
-      </h1>
+      <h1 class="text-3xl font-bold text-green-600">✅ Order Confirmed!</h1>
 
       <p class="text-gray-700">
         Thank you for your purchase. Your order has been successfully placed.
       </p>
 
-      <p class="text-gray-500 text-sm">
-        You can now continue shopping or close this page.
-      </p>
+      <p class="text-gray-500 text-sm">You can now continue shopping or close this page.</p>
 
       <a
         routerLink="/shop/products"

@@ -9,7 +9,7 @@ export const cartNotEmptyGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   return store.select(selectCartCount).pipe(
-    map(count => {
+    map((count) => {
       if (count > 0) {
         return true; // allow navigation
       }
@@ -17,6 +17,6 @@ export const cartNotEmptyGuard: CanActivateFn = () => {
       // cart empty → redirect
       router.navigateByUrl('/shop/products');
       return false;
-    })
+    }),
   );
 };

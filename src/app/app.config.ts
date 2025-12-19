@@ -1,8 +1,8 @@
-
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection, isDevMode,
+  provideZoneChangeDetection,
+  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -28,36 +28,31 @@ import { CheckoutEffects } from './state/checkout/checkout.effects';
 import { AdminEffects } from './state/admin/admin.effects';
 import { adminReducer } from './state/admin/admin.reducer';
 
-
-
 export const appConfig: ApplicationConfig = {
   providers: [
-  provideBrowserGlobalErrorListeners(),
-  provideZoneChangeDetection({ eventCoalescing: true }),
-  provideRouter(routes),
-  provideStore({
-    auth: authReducer,
-    products: productsReducer,
-    rating: ratingReducer,
-    cart: cartReducer,
-    checkout: checkoutReducer,
-    user: userReducer,
-    wishlist: wishlistReducer,
-    admin: adminReducer,
-
-  }),
-  provideEffects([
-    AuthEffects,
-    ProductsEffects,
-    RatingEffects,
-    CartEffects,
-    UserEffects,
-    CheckoutEffects,
-    AdminEffects,
-
-
-  ]),
-  provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-  provideHttpClient(),
-],
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideStore({
+      auth: authReducer,
+      products: productsReducer,
+      rating: ratingReducer,
+      cart: cartReducer,
+      checkout: checkoutReducer,
+      user: userReducer,
+      wishlist: wishlistReducer,
+      admin: adminReducer,
+    }),
+    provideEffects([
+      AuthEffects,
+      ProductsEffects,
+      RatingEffects,
+      CartEffects,
+      UserEffects,
+      CheckoutEffects,
+      AdminEffects,
+    ]),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideHttpClient(),
+  ],
 };

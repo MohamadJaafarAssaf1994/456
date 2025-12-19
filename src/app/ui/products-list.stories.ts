@@ -7,9 +7,9 @@ const meta: Meta<ProductsListComponent> = {
   args: {
     items: [
       { id: 1, name: 'Blue Pen', price: 2.5 },
-      { id: 2, name: 'Notebook', price: 3.0 }
-    ]
-  }
+      { id: 2, name: 'Notebook', price: 3.0 },
+    ],
+  },
 };
 
 export default meta;

@@ -5,13 +5,13 @@ import { RatingResult } from './rating.models';
 export interface RatingState {
   loading: boolean;
   error: string | null;
-  result: RatingResult | null;   // ⭐ this holds the rating data
+  result: RatingResult | null; // ⭐ this holds the rating data
 }
 
 export const initialRatingState: RatingState = {
   loading: false,
   error: null,
-  result: null
+  result: null,
 };
 
 export const ratingReducer = createReducer(
@@ -22,7 +22,7 @@ export const ratingReducer = createReducer(
     ...state,
     loading: true,
     error: null,
-    result: null
+    result: null,
   })),
 
   // Rating retrieved successfully → store inside result object
@@ -30,7 +30,7 @@ export const ratingReducer = createReducer(
     ...state,
     loading: false,
     error: null,
-    result: { productId, avg_rating, count }    // ⭐ important fix
+    result: { productId, avg_rating, count }, // ⭐ important fix
   })),
 
   // Failure → store error, clear result
@@ -38,6 +38,6 @@ export const ratingReducer = createReducer(
     ...state,
     loading: false,
     error,
-    result: null
-  }))
+    result: null,
+  })),
 );

@@ -5,13 +5,9 @@ import { RouterLink } from '@angular/router';
 
 import { ProductCardComponent } from '../../ui/product-card.component';
 
-import {
-  selectWishlistProductIds,
-} from '../../state/wishlist/wishlist.selectors';
+import { selectWishlistProductIds } from '../../state/wishlist/wishlist.selectors';
 
-import {
-  selectProductsList,
-} from '../../state/products/products.selectors';
+import { selectProductsList } from '../../state/products/products.selectors';
 
 import * as WishlistActions from '../../state/wishlist/wishlist.actions';
 

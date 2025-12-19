@@ -15,16 +15,15 @@ export class WishlistEffects {
       this.actions$.pipe(
         ofType(WishlistActions.toggleWishlist),
         tap((action) => {
-          const existing =
-            JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
           const updated = existing.includes(action.productId)
             ? existing.filter((id: number) => id !== action.productId)
             : [...existing, action.productId];
 
           localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }

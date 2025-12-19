@@ -6,7 +6,6 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
 export class RatingEffects {
-
   private actions$ = inject(Actions);
   private api = inject(ShopApiService);
 
@@ -15,20 +14,22 @@ export class RatingEffects {
       ofType(Rating.loadRating),
       mergeMap(({ productId }) =>
         this.api.getRating(productId).pipe(
-          map(res =>
+          map((res) =>
             Rating.loadRatingSuccess({
               productId: res.product_id,
               avg_rating: res.avg_rating,
-              count: res.count
-            })
+              count: res.count,
+            }),
           ),
-          catchError(err =>
-            of(Rating.loadRatingFailure({
-              error: err?.message ?? 'Error loading rating'
-            }))
-          )
-        )
-      )
-    )
+          catchError((err) =>
+            of(
+              Rating.loadRatingFailure({
+                error: err?.message ?? 'Error loading rating',
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

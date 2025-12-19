@@ -15,11 +15,19 @@ import { RouterLink } from '@angular/router';
           Login
         </button>
 
-        <button type="button" routerLink="/shop/products" class="rounded border px-3 py-2 hover:bg-gray-50">
+        <button
+          type="button"
+          routerLink="/shop/products"
+          class="rounded border px-3 py-2 hover:bg-gray-50"
+        >
           Products
         </button>
 
-        <button type="button" routerLink="/shop/rating" class="rounded border px-3 py-2 hover:bg-gray-50">
+        <button
+          type="button"
+          routerLink="/shop/rating"
+          class="rounded border px-3 py-2 hover:bg-gray-50"
+        >
           Rating
         </button>
       </nav>

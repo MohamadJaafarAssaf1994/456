@@ -18,19 +18,16 @@ import { Step3ConfirmComponent } from './shop/checkout/step3-confirm.component';
 import { OrderSuccessComponent } from './shop/checkout/order-success.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-
 import { cartNotEmptyGuard } from './shop/checkout/cart-not-empty.guard';
 import { authGuard } from './account/account-auth.guard';
 
-import { AccountProfilePageComponent } from './account/profile/account-profile-page.component'
+import { AccountProfilePageComponent } from './account/profile/account-profile-page.component';
 import { AccountOrdersPageComponent } from './account/orders/account-orders-page.component';
 import { AccountOrderDetailsPageComponent } from './account/orders/account-order-details-page.component';
 import { WishlistPageComponent } from './shop/wishlist/wishlist-page.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 
-
 export const routes: Routes = [
-
   // HOME
   { path: '', component: HomeComponent, pathMatch: 'full' },
 
@@ -56,7 +53,7 @@ export const routes: Routes = [
   // CHECKOUT FLOW (protected by cart guard)
   {
     path: 'shop/checkout',
-    redirectTo: 'shop/checkout/step1',   // ✔ fixes navigation
+    redirectTo: 'shop/checkout/step1', // ✔ fixes navigation
     pathMatch: 'full',
   },
 
@@ -100,17 +97,16 @@ export const routes: Routes = [
   },
 
   // WISHLIST PAGE
-{
-  path: 'wishlist',
-  component: WishlistPageComponent,
-  // canActivate: [authGuard], // optional (see below)
-},
+  {
+    path: 'wishlist',
+    component: WishlistPageComponent,
+    // canActivate: [authGuard], // optional (see below)
+  },
 
-{
-  path: 'admin/dashboard',
-  component: AdminDashboardComponent,
-}
-,
+  {
+    path: 'admin/dashboard',
+    component: AdminDashboardComponent,
+  },
 
   // FALLBACK
   { path: '**', redirectTo: '/login' },

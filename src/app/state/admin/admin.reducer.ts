@@ -28,5 +28,5 @@ export const adminReducer = createReducer(
     ...state,
     loading: false,
     error,
-  }))
+  })),
 );

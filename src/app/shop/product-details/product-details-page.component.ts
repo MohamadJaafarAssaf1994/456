@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -26,7 +26,7 @@ import { switchMap, filter } from 'rxjs';
   imports: [AsyncPipe, NgIf, RouterLink, MatSnackBarModule],
   templateUrl: './product-details-page.component.html',
 })
-export class ProductDetailsPageComponent {
+export class ProductDetailsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private snack = inject(MatSnackBar);
@@ -42,9 +42,7 @@ export class ProductDetailsPageComponent {
   // ✅ Reactive wishlist status
   isInWishlist$ = this.product$.pipe(
     filter((p): p is Product => !!p),
-    switchMap((p) =>
-      this.store.select(selectIsInWishlist(p.id))
-    )
+    switchMap((p) => this.store.select(selectIsInWishlist(p.id))),
   );
 
   // =========================
@@ -63,20 +61,14 @@ export class ProductDetailsPageComponent {
   addToCart(product: Product) {
     this.store.dispatch(addItem({ product, quantity: 1 }));
 
-    this.snack.open(
-      `"${product.name}" added to cart`,
-      'OK',
-      {
-        duration: 2500,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      }
-    );
+    this.snack.open(`"${product.name}" added to cart`, 'OK', {
+      duration: 2500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   toggleWishlist(productId: number) {
-    this.store.dispatch(
-      WishlistActions.toggleWishlist({ productId })
-    );
+    this.store.dispatch(WishlistActions.toggleWishlist({ productId }));
   }
 }

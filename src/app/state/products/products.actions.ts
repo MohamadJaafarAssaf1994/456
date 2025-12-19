@@ -7,17 +7,17 @@ import { Product, ProductsQuery } from './products.models';
 
 export const loadProducts = createAction(
   '[Products] Load',
-  props<{ query: Partial<ProductsQuery> }>()
+  props<{ query: Partial<ProductsQuery> }>(),
 );
 
 export const loadProductsSuccess = createAction(
   '[Products] Load Success',
-  props<{ count: number; results: Product[] }>()
+  props<{ count: number; results: Product[] }>(),
 );
 
 export const loadProductsFailure = createAction(
   '[Products] Load Failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );
 
 /* =========================
@@ -26,17 +26,17 @@ export const loadProductsFailure = createAction(
 
 export const loadProductDetails = createAction(
   '[Products] Load Product Details',
-  props<{ id: number }>()
+  props<{ id: number }>(),
 );
 
 export const loadProductDetailsSuccess = createAction(
   '[Products] Load Product Details Success',
-  props<{ product: Product }>()
+  props<{ product: Product }>(),
 );
 
 export const loadProductDetailsFailure = createAction(
   '[Products] Load Product Details Failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );
 
 /* =========================
@@ -49,7 +49,7 @@ export const loadProductDetailsFailure = createAction(
  */
 export const addProduct = createAction(
   '[Admin Products] Add Product',
-  props<{ name: string; price: number }>()
+  props<{ name: string; price: number }>(),
 );
 
 /**
@@ -57,7 +57,7 @@ export const addProduct = createAction(
  */
 export const addProductSuccess = createAction(
   '[Admin Products] Add Product Success',
-  props<{ product: Product }>()
+  props<{ product: Product }>(),
 );
 
 /**
@@ -65,5 +65,5 @@ export const addProductSuccess = createAction(
  */
 export const addProductFailure = createAction(
   '[Admin Products] Add Product Failure',
-  props<{ error: string }>()
+  props<{ error: string }>(),
 );

@@ -1,12 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import {
-  selectUserProfile,
-  selectUserLoading,
-} from '../../state/user/user.selectors';
+import { selectUserProfile, selectUserLoading } from '../../state/user/user.selectors';
 import * as UserActions from '../../state/user/user.actions';
 
 @Component({
@@ -56,16 +53,13 @@ import * as UserActions from '../../state/user/user.actions';
         />
       </div>
 
-      <button
-        type="submit"
-        class="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-      >
+      <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">
         Save preferences
       </button>
     </form>
   `,
 })
-export class AccountProfilePageComponent {
+export class AccountProfilePageComponent implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
@@ -93,7 +87,7 @@ export class AccountProfilePageComponent {
         changes: {
           preferences: this.form.value,
         },
-      })
+      }),
     );
   }
 }

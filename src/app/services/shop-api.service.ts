@@ -9,43 +9,38 @@ export class ShopApiService {
   private base = environment.apiBaseUrl.replace(/\/?$/, '');
 
   // LOGIN
-  login(username: string, password: string): Observable<{access: string; refresh: string}> {
-    return this.http.post<{access: string; refresh: string}>(
-      `${this.base}/auth/token/`,
-      { username, password }
-    );
+  login(username: string, password: string): Observable<{ access: string; refresh: string }> {
+    return this.http.post<{ access: string; refresh: string }>(`${this.base}/auth/token/`, {
+      username,
+      password,
+    });
   }
 
   // REFRESH TOKEN
-  refresh(refresh: string): Observable<{access: string}> {
-    return this.http.post<{access: string}>(
-      `${this.base}/auth/token/refresh/`,
-      { refresh }
-    );
+  refresh(refresh: string): Observable<{ access: string }> {
+    return this.http.post<{ access: string }>(`${this.base}/auth/token/refresh/`, { refresh });
   }
 
   // PRODUCT LIST + FILTERS (page, min rating, ordering)
-  getProducts(query: { page: number; pageSize: number; minRating: number; ordering: string }):
-    Observable<{ count: number; results: any[] }> {
-
-    let params = new HttpParams()
+  getProducts(query: {
+    page: number;
+    pageSize: number;
+    minRating: number;
+    ordering: string;
+  }): Observable<{ count: number; results: any[] }> {
+    const params = new HttpParams()
       .set('page', query.page)
       .set('page_size', query.pageSize)
       .set('min_rating', query.minRating)
       .set('ordering', query.ordering);
 
-    return this.http.get<{ count: number; results: any[] }>(
-      `${this.base}/products/`,
-      { params }
-    );
+    return this.http.get<{ count: number; results: any[] }>(`${this.base}/products/`, { params });
   }
 
   // PRODUCT RATING
-  getRating(id: number):
-    Observable<{ product_id: number; avg_rating: number; count: number }> {
-
+  getRating(id: number): Observable<{ product_id: number; avg_rating: number; count: number }> {
     return this.http.get<{ product_id: number; avg_rating: number; count: number }>(
-      `${this.base}/products/${id}/rating/`
+      `${this.base}/products/${id}/rating/`,
     );
   }
 }

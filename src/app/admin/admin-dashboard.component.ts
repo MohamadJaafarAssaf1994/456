@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +20,6 @@ import * as ProductsActions from '../state/products/products.actions';
   imports: [CommonModule, FormsModule],
   template: `
     <section class="max-w-5xl mx-auto p-6 space-y-8">
-
       <h1 class="text-3xl font-bold">Admin Dashboard</h1>
 
       <!-- ADD PRODUCT -->
@@ -39,12 +38,7 @@ import * as ProductsActions from '../state/products/products.actions';
         >
           <div>
             <label class="block text-sm font-medium">Product name</label>
-            <input
-              [(ngModel)]="name"
-              name="name"
-              required
-              class="border p-2 w-full rounded"
-            />
+            <input [(ngModel)]="name" name="name" required class="border p-2 w-full rounded" />
           </div>
 
           <div>
@@ -59,18 +53,9 @@ import * as ProductsActions from '../state/products/products.actions';
           </div>
 
           <div class="flex gap-3">
-            <button
-              type="submit"
-              class="px-4 py-2 bg-green-600 text-white rounded"
-            >
-              Save
-            </button>
+            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Save</button>
 
-            <button
-              type="button"
-              class="px-4 py-2 border rounded"
-              (click)="showAddForm = false"
-            >
+            <button type="button" class="px-4 py-2 border rounded" (click)="showAddForm = false">
               Cancel
             </button>
           </div>
@@ -78,9 +63,7 @@ import * as ProductsActions from '../state/products/products.actions';
       </div>
 
       <!-- LOADING -->
-      <div *ngIf="loading$ | async" class="text-gray-600">
-        Loading admin statistics...
-      </div>
+      <div *ngIf="loading$ | async" class="text-gray-600">Loading admin statistics...</div>
 
       <!-- ERROR -->
       <div *ngIf="error$ | async as err" class="text-red-600">
@@ -89,7 +72,6 @@ import * as ProductsActions from '../state/products/products.actions';
 
       <!-- CONTENT -->
       <ng-container *ngIf="totals$ | async as totals">
-
         <!-- STATS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="border rounded p-4">
@@ -149,13 +131,11 @@ import * as ProductsActions from '../state/products/products.actions';
             </tr>
           </tbody>
         </table>
-
       </ng-container>
-
     </section>
   `,
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
   private store = inject(Store);
 
   // admin stats
@@ -175,15 +155,15 @@ export class AdminDashboardComponent {
   }
 
   addProduct() {
-  this.store.dispatch(
-    ProductsActions.addProduct({
-      name: this.name,
-      price: this.price,
-    })
-  );
+    this.store.dispatch(
+      ProductsActions.addProduct({
+        name: this.name,
+        price: this.price,
+      }),
+    );
 
-  this.name = '';
-  this.price = 0;
-  this.showAddForm = false;
-}
+    this.name = '';
+    this.price = 0;
+    this.showAddForm = false;
+  }
 }

@@ -1,14 +1,9 @@
 <section class="mx-auto max-w-2xl p-4">
-
   <!-- BACK -->
-  <button routerLink="/shop/products" class="underline text-blue-600">
-    ← Back to products
-  </button>
+  <button routerLink="/shop/products" class="underline text-blue-600">← Back to products</button>
 
   <!-- Loading -->
-  <div *ngIf="loading$ | async" class="mt-6 text-gray-600">
-    Loading product...
-  </div>
+  <div *ngIf="loading$ | async" class="mt-6 text-gray-600">Loading product...</div>
 
   <!-- Error -->
   <div *ngIf="error$ | async as err" class="mt-6 text-red-600">
@@ -17,16 +12,13 @@
 
   <!-- Product Details -->
   <div *ngIf="product$ | async as p" class="mt-6 border p-4 rounded">
-
     <h2 class="text-3xl font-bold mb-2">{{ p.name }}</h2>
 
     <p class="text-xl text-gray-700 mb-2">
       Price: <strong>{{ p.price }} €</strong>
     </p>
 
-    <p class="text-sm text-gray-500 mb-3">
-      Created at: {{ p.created_at }}
-    </p>
+    <p class="text-sm text-gray-500 mb-3">Created at: {{ p.created_at }}</p>
 
     <p class="text-lg text-yellow-600 mb-6">
       ⭐ Average Rating: <strong>{{ p._avg ?? 'No rating' }}</strong>
@@ -34,7 +26,6 @@
 
     <!-- ACTION BUTTONS -->
     <div class="flex items-center gap-4 flex-wrap">
-
       <!-- ADD TO CART -->
       <button
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -44,17 +35,12 @@
       </button>
 
       <!-- ❤️ WISHLIST -->
-      <button
-        class="px-4 py-2 border rounded hover:bg-gray-50"
-        (click)="toggleWishlist(p.id)"
-      >
+      <button class="px-4 py-2 border rounded hover:bg-gray-50" (click)="toggleWishlist(p.id)">
         <ng-container *ngIf="isInWishlist$ | async; else add">
           💔 Remove from wishlist
         </ng-container>
 
-        <ng-template #add>
-          ❤️ Add to wishlist
-        </ng-template>
+        <ng-template #add> ❤️ Add to wishlist </ng-template>
       </button>
 
       <!-- 🧾 GO TO CART -->
@@ -64,8 +50,6 @@
       >
         🧾 Go to Cart
       </a>
-
     </div>
-
   </div>
 </section>

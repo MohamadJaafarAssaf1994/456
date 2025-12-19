@@ -11,16 +11,13 @@ import * as WishlistActions from '../state/wishlist/wishlist.actions';
   imports: [CommonModule, AsyncPipe, NgIf],
   template: `
     <div class="relative rounded border p-4 bg-white shadow-sm">
-
       <!-- ❤️ Wishlist button -->
       <button
         class="absolute top-2 right-2 text-xl"
         (click)="toggleWishlist()"
         aria-label="Toggle wishlist"
       >
-        <ng-container *ngIf="isInWishlist$ | async; else notInWishlist">
-          ❤️
-        </ng-container>
+        <ng-container *ngIf="isInWishlist$ | async; else notInWishlist"> ❤️ </ng-container>
         <ng-template #notInWishlist>🤍</ng-template>
       </button>
 
@@ -28,9 +25,7 @@ import * as WishlistActions from '../state/wishlist/wishlist.actions';
       <p>Price: €{{ price }}</p>
       <small>Created: {{ created_at }}</small>
 
-      <div *ngIf="avgRating !== null" class="mt-2">
-        ⭐ {{ avgRating }}
-      </div>
+      <div *ngIf="avgRating !== null" class="mt-2">⭐ {{ avgRating }}</div>
     </div>
   `,
 })
@@ -46,13 +41,9 @@ export class ProductCardComponent {
   @Input() created_at!: string;
   @Input() avgRating: number | null = null;
 
-  isInWishlist$ = this.store.select(
-    selectIsInWishlist(this.productId)
-  );
+  isInWishlist$ = this.store.select(selectIsInWishlist(this.productId));
 
   toggleWishlist() {
-    this.store.dispatch(
-      WishlistActions.toggleWishlist({ productId: this.productId })
-    );
+    this.store.dispatch(WishlistActions.toggleWishlist({ productId: this.productId }));
   }
 }

@@ -14,5 +14,5 @@ export interface CartState {
 export const initialCartState: CartState = {
   items: [],
   totalPrice: 0,
-  count: 0
+  count: 0,
 };

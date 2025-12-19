@@ -10,7 +10,6 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProductsEffects {
-
   private actions$ = inject(Actions);
   private api = inject(ShopApiService);
   private store = inject(Store);
@@ -28,19 +27,17 @@ export class ProductsEffects {
         const finalQuery = { ...currentQuery, ...action.query };
 
         return this.api.getProducts(finalQuery).pipe(
-          map(({ count, results }) =>
-            Products.loadProductsSuccess({ count, results })
-          ),
+          map(({ count, results }) => Products.loadProductsSuccess({ count, results })),
           catchError((err) =>
             of(
               Products.loadProductsFailure({
                 error: err?.message ?? 'Error loading products',
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
-    )
+      }),
+    ),
   );
 
   /* =========================
@@ -52,19 +49,17 @@ export class ProductsEffects {
       ofType(Products.loadProductDetails),
       mergeMap(({ id }) =>
         this.http.get(`/api/products/${id}`).pipe(
-          map((product: any) =>
-            Products.loadProductDetailsSuccess({ product })
-          ),
+          map((product: any) => Products.loadProductDetailsSuccess({ product })),
           catchError((err) =>
             of(
               Products.loadProductDetailsFailure({
                 error: err.message || 'Failed to load product',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 
   /* =========================
@@ -76,18 +71,16 @@ export class ProductsEffects {
       ofType(Products.addProduct),
       mergeMap(({ name, price }) =>
         this.http.post('/api/admin/products/', { name, price }).pipe(
-          map((product: any) =>
-            Products.addProductSuccess({ product })
-          ),
+          map((product: any) => Products.addProductSuccess({ product })),
           catchError((err) =>
             of(
               Products.addProductFailure({
                 error: err.message || 'Failed to add product',
-              })
-            )
-          )
-        )
-      )
-    )
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }
